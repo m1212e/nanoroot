@@ -7,9 +7,16 @@ const buttonArea = document.getElementById('buttonArea');
 const storageValue = localStorage.getItem('buttons');
 
 //event listener
-const colorPicker = new (iro.ColorPicker as any)('#picker', {
-    width: 500
-});
+let colorPicker;
+if (window.innerWidth >= 1200) {
+    colorPicker = new (iro.ColorPicker as any)('#picker', {
+        width: 500
+    });
+} else {
+    colorPicker = new (iro.ColorPicker as any)('#picker', {
+        width: 350
+    });
+}
 
 document.getElementById('add').onclick = () => {
     buttons.push(new ColorButton('#e63232', changeColorEvent, buttonArea));
@@ -34,8 +41,7 @@ function saveToLocalStorage() {
 
 
 //initialization
-
-if (storageValue !== undefined && storageValue !== '""') {
+if (storageValue !== undefined && storageValue !== null && storageValue !== '""') {
     JSON.parse(storageValue).forEach(colorCode => {
         buttons.push(new ColorButton(colorCode, changeColorEvent, buttonArea));
     });
