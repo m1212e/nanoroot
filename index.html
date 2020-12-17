@@ -4,28 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="main.ts"></script>
     <title>Farbwahl</title>
-    <style>
-        body {
-            height: 100vh;
-        }
-        .center {
-            height: 100%;
-            display: grid;
-            place-items: center;
-        }
-    </style>
+
+    <!-- MDB -->
+    <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/2.2.1/mdb.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/2.2.1/mdb.min.js"></script>
+
+    <link rel="stylesheet" href="customInput.css">
+    <link rel="stylesheet" href="main.css">
 </head>
 
 <body>
-    <div class="center">
-        <div id="picker"></div>
-        <!-- <form action="post">
-            <input type="color" id="colorpicker"></input>
-            <label for="colorpicker">Farbe</label>
-            <Button type="submit"> Auswählen </Button>
-        </form> -->
-        <script src="main.ts"></script>
+    <h1 class="text-center">Color Triangle</h1>
+    <div class="row m-0">
+        <div class="row col-12 col-xl-6 col-xxl-8 m-0 py-4 px-0 d-flex justify-content-center">
+            <div class="d-flex justify-content-center align-items-center" id="picker"></div>
+            <div class="d-flex justify-content-center mt-5">
+                <div>
+                    <div class='CustomInput p-0'>
+                        <input type='text' id="hexColorInput" name='hexColorInput' autoComplete='off' required maxlength="6" />
+                        <label for='hexColorInput' class='lable-name'>
+                            <span class='content-name'>Hexcode</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="right" class="col-12 col-xl-6 col-xxl-4 m-0 py-4 px-0">
+            <h1>Presets</h1>
+            <button id="add" type="button" class="btn btn-success m-3"><i class="fa fa-plus"></i></i></button>
+            <div id="buttonArea"></div>
+        </div>
     </div>
 </body>
 
