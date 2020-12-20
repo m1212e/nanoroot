@@ -44,7 +44,7 @@ colorPicker.on('color:change', () => {
 });
 
 hexColorInput.oninput = () => {
-    if(hexColorInput.value.length === 6){
+    if (hexColorInput.value.length === 6) {
         colorPicker.color.hexString = hexColorInput.value;
     }
 }
@@ -58,7 +58,7 @@ function onButtonSelectEvent(color: string) {
             let index = buttonArray.findIndex(b => b.selected);
             buttonArray.splice(index, 1);
             sendMessage(JSON.stringify({
-                selectedIndex: (((index-1) > -1) ? index-1 : index),
+                selectedIndex: (((index - 1) > -1) ? index - 1 : index),
                 buttons: buttonArray.map(b => {
                     return b.color
                 })
@@ -78,7 +78,7 @@ function saveToStorage() {
 }
 
 function onStorageUpdate(JSONPayload: string) {
-    console.log(JSONPayload);
+    // console.log(JSONPayload);
     if (JSONPayload !== undefined && JSONPayload !== null && JSONPayload !== '""' && JSONPayload !== '') {
         buttonArea.innerHTML = "";
         buttonArray.length = 0;
@@ -103,7 +103,6 @@ function onStorageUpdate(JSONPayload: string) {
         ];
         buttonArray[0].select();
     }
-
 }
 
 export {onStorageUpdate}

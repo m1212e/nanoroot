@@ -1,21 +1,23 @@
 import Paho from 'paho-mqtt';
 import {onStorageUpdate} from './main';
 
-const server = 'hrw-fablab.de';
-const port = 9001;
-const path ="/ES/WS20/gruppe10";
-const clientID = 'gruppe10';
-const password = ',bxTfxXrUhG!BDQL';
+// const server = 'hrw-fablab.de';
+// const port = 9001;
+// const path ="/ES/WS20/gruppe10";
+// const clientID = 'gruppe10';
+// const password = ',bxTfxXrUhG!BDQL';
+// const topic = path.concat('lights');
 
-// const server = 'unix-yoga.de';
-// const port = 9002;
-// const clientID = 'color_triangle_frontend';
-// const password = 'nasf982z82h3jb508fw98dzfhnfijew';
+const server = 'unix-yoga.de';
+const port = 9002;
+const clientID = 'color_triangle_frontend';
+const password = 'nasf982z82h3jb508fw98dzfhnfijew';
+const topic = 'lights';
 
 
 const userID = "FC_" + makeid(15);
 // Create a client instance
-const client = new Paho.Client(server, port, path, userID);
+const client = new Paho.Client(server, port, userID);
 
 // set callback handlers
 client.onConnectionLost = onConnectionLost;
@@ -26,13 +28,13 @@ client.connect({
 	onSuccess: onConnect, 
 	userName : clientID,
     password: password,
-    useSSL: true
+    // useSSL: true
 });
 
 
 // called when the client connects
 function onConnect() {
-    client.subscribe("lights");
+    client.subscribe(topic);
 }
 
 // called when the client loses its connection
@@ -52,7 +54,7 @@ function sendMessage(payload: string) {
     if ((new Date().getTime()) - debounceTimer > 50) {
         debounceTimer = new Date().getTime();   
         let message = new Paho.Message(payload);
-        message.destinationName = "lights";
+        message.destinationName = topic;
         client.send(message);
     }
 }
