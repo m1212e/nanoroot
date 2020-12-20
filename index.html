@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script defer src="main.ts"></script>
-    <script src="mqtt.ts"></script>
     <title>Farbwahl</title>
 
     <!-- MDB -->
@@ -13,9 +12,6 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/2.2.1/mdb.min.css" rel="stylesheet" />
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/2.2.1/mdb.min.js"></script>
-
-    <!-- Paho -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
 
     <link rel="stylesheet" href="customInput.css">
     <link rel="stylesheet" href="main.css">
@@ -38,8 +34,13 @@
             </div>
         </div>
         <div id="right" class="col-12 col-xl-6 col-xxl-4 m-0 py-4 px-0">
-            <h1>Presets</h1>
-            <button id="add" type="button" class="btn btn-success m-3"><i class="fa fa-plus"></i></i></button>
+            <div class="row row-cols-auto m-0 mb-3 d-flex align-items-center justify-content-between">
+                <h1 class="col">Presets</h1>
+                <div class="col mr-3 p-0">
+                    <button id="add" type="button" class="col btn btn-success m-0"><i class="fa fa-plus"></i></i></button>
+                    <button id="del" type="button" class="col btn btn-danger text-align-middle m-0 ml-3"><i class="fas fa-lock"></i></button>
+                </div>
+            </div>
             <div id="buttonArea"></div>
         </div>
     </div>

@@ -1,12 +1,14 @@
 import iro from '@jaames/iro';
 import ColorButton from './ColorButton';
+import {sendMessage} from './mqtt';
 
-let buttons: ColorButton[] = [];
+let buttonArray: ColorButton[] = [];
 const hexColorInput = document.getElementById('hexColorInput') as HTMLInputElement;
 const buttonArea = document.getElementById('buttonArea');
-const storageValue = localStorage.getItem('buttons');
+const deleteButton = document.getElementById('del');
 
-//event listener
+let deleteModeActive = false;
+
 let colorPicker;
 if (window.innerWidth >= 1200) {
     colorPicker = new (iro.ColorPicker as any)('#picker', {
@@ -18,38 +20,89 @@ if (window.innerWidth >= 1200) {
     });
 }
 
+//listener
+deleteButton.onclick = () => {
+    deleteModeActive = !deleteModeActive;
+    updateDeleteButtonUI();
+    saveToStorage();
+}
+
+function updateDeleteButtonUI() {
+    deleteButton.innerHTML = deleteModeActive ? '<i class="fas fa-lock-open"></i>' : '<i class="fas fa-lock"></i>';
+}
+
 document.getElementById('add').onclick = () => {
-    buttons.push(new ColorButton('#e63232', changeColorEvent, buttonArea));
-    saveToLocalStorage();
+    buttonArray.push(new ColorButton('#ff3232', onButtonSelectEvent, buttonArea));
+    buttonArray[buttonArray.length - 1].select();
+    saveToStorage();
 };
 
 colorPicker.on('color:change', () => {
-    buttons.find(b => b.selected).color = colorPicker.color.hexString;
+    buttonArray.find(b => b.selected).color = colorPicker.color.hexString;
     hexColorInput.value = colorPicker.color.hexString.substring(1);
-    saveToLocalStorage();
+    saveToStorage();
 });
 
+hexColorInput.oninput = () => {
+    if(hexColorInput.value.length === 6){
+        colorPicker.color.hexString = hexColorInput.value;
+    }
+}
+
 //helpers
-function changeColorEvent(color: string) {
-    colorPicker.color.hexString = color;
-    saveToLocalStorage();
+function onButtonSelectEvent(color: string) {
+    if (!deleteModeActive) {
+        colorPicker.color.hexString = color;
+    } else {
+        if (buttonArray.length > 1) {
+            let index = buttonArray.findIndex(b => b.selected);
+            buttonArray.splice(index, 1);
+            sendMessage(JSON.stringify({
+                selectedIndex: (((index-1) > -1) ? index-1 : index),
+                buttons: buttonArray.map(b => {
+                    return b.color
+                })
+            }));
+        }
+    }
 }
 
-function saveToLocalStorage() {
-    localStorage.setItem('buttons', JSON.stringify(buttons.map(b => b.color)));
+function saveToStorage() {
+    sendMessage(JSON.stringify({
+        deleteMeodeActive: deleteModeActive,
+        selectedIndex: buttonArray.findIndex(b => b.selected),
+        buttons: buttonArray.map(b => {
+            return b.color
+        })
+    }));
 }
 
+function onStorageUpdate(JSONPayload: string) {
+    if (JSONPayload !== undefined && JSONPayload !== null && JSONPayload !== '""' && JSONPayload !== '') {
+        buttonArea.innerHTML = "";
+        buttonArray.length = 0;
 
-//initialization
-if (storageValue !== undefined && storageValue !== null && storageValue !== '""') {
-    JSON.parse(storageValue).forEach(colorCode => {
-        buttons.push(new ColorButton(colorCode, changeColorEvent, buttonArea));
-    });
-} else {
-    buttons = [new ColorButton('#4287f5', changeColorEvent, buttonArea),
-    new ColorButton('#ff1c68', changeColorEvent, buttonArea),
-    new ColorButton('#39ff0d', changeColorEvent, buttonArea)
-    ];
+        const parsed = JSON.parse(JSONPayload);
+
+        parsed.buttons.forEach(color => {
+            buttonArray.push(new ColorButton(color, onButtonSelectEvent, buttonArea));
+        });
+        buttonArray[parsed.selectedIndex].selected = true;
+        colorPicker.color.hexString = buttonArray[parsed.selectedIndex].color;
+        if (!buttonArray.find(b => b.selected) && buttonArray.length > 0) {
+            buttonArray[0].select();
+        }
+
+        deleteModeActive = parsed.deleteMeodeActive;
+        updateDeleteButtonUI();
+    } else {
+        buttonArray = [new ColorButton('#4287f5', onButtonSelectEvent, buttonArea),
+        new ColorButton('#ff1c68', onButtonSelectEvent, buttonArea),
+        new ColorButton('#39ff0d', onButtonSelectEvent, buttonArea)
+        ];
+        buttonArray[0].select();
+    }
+
 }
 
-buttons[0].select();
+export {onStorageUpdate}

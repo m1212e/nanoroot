@@ -4,7 +4,7 @@ export default class ColorButton {
     private _color = '#ffffff';
     private _selected = false;
     private _domButton;
-    setColorMethod;
+    onSelectMethod;
 
     /**
      * Constructs a new ColorButton
@@ -25,7 +25,7 @@ export default class ColorButton {
         }
         ColorButton.allColorButtons.push(this);
         this.insertToHTML();
-        this.setColorMethod = callback;
+        this.onSelectMethod = callback;
     }
 
     get selected() {
@@ -84,7 +84,7 @@ export default class ColorButton {
         ColorButton.allColorButtons.forEach(e => e.deselect());
         this.selected = true;
         try {
-            this.setColorMethod(this.color);
+            this.onSelectMethod(this.color);
         } catch (error) {
             console.error('Error in OnClick callback function. (The attribute must be a callable function!)');
         }

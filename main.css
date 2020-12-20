@@ -5,7 +5,6 @@
 }
 
 body {
-  height: 100vh;
   background-color: var(--backgroundColor);
   color: var(--fontColor);
 }
@@ -22,11 +21,10 @@ body {
 }
 
 @media only screen and (max-width: 1199px) {
-  #right{
+  #right {
     border-top-left-radius: 0rem;
     border-bottom-left-radius: 0rem;
   }
-
   #right h1 {
     color: var(--fontColor)
   }
