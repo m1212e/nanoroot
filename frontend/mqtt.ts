@@ -26,7 +26,7 @@ client.connect({
 	onSuccess: onConnect, 
 	userName : clientID,
     password: password,
-    // useSSL: true
+    useSSL: true
 });
 
 
