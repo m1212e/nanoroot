@@ -46,6 +46,7 @@ function onConnectionLost(responseObject) {
 
 // called when a message arrives
 function onMessageArrived(message) {
+    console.log('arrived_message: ', message);
     onStorageUpdate(message.payloadString);
 }
 
