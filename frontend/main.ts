@@ -78,6 +78,7 @@ function saveToStorage() {
 }
 
 function onStorageUpdate(JSONPayload: string) {
+    console.log(JSONPayload);
     if (JSONPayload !== undefined && JSONPayload !== null && JSONPayload !== '""' && JSONPayload !== '') {
         buttonArea.innerHTML = "";
         buttonArray.length = 0;
