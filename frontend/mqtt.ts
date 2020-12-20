@@ -1,21 +1,21 @@
 import Paho from 'paho-mqtt';
 import {onStorageUpdate} from './main';
 
-// const server = 'hrw-fablab.de';
-// const port = 9001;
-// const path ="/ES/WS20/gruppe10";
-// const clientID = 'gruppe10';
-// const password = ',bxTfxXrUhG!BDQL';
-// const userID = "FC_" + makeid(15);
+const server = 'hrw-fablab.de';
+const port = 9001;
+const path ="/ES/WS20/gruppe10";
+const clientID = 'gruppe10';
+const password = ',bxTfxXrUhG!BDQL';
 
-const server = 'unix-yoga.de';
-const port = 9002;
-const clientID = 'color_triangle_frontend';
-const password = 'nasf982z82h3jb508fw98dzfhnfijew';
+// const server = 'unix-yoga.de';
+// const port = 9002;
+// const clientID = 'color_triangle_frontend';
+// const password = 'nasf982z82h3jb508fw98dzfhnfijew';
+
+
 const userID = "FC_" + makeid(15);
-
 // Create a client instance
-const client = new Paho.Client(server, port, userID);
+const client = new Paho.Client(server, port, path, userID);
 
 // set callback handlers
 client.onConnectionLost = onConnectionLost;
