@@ -15,7 +15,7 @@ export default class ColorButton {
      */
     constructor(color: string, callback: any, buttonParent: HTMLElement) {
         if (buttonParent === undefined) {
-            console.error('You need to define a button parent!.');
+            console.error('You need to define a button parent!');
             return;
         } else {
             this.buttonParent = buttonParent;
