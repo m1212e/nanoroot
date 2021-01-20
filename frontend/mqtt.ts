@@ -1,18 +1,18 @@
 import Paho from 'paho-mqtt';
 import {onStorageUpdate} from './main';
 
-const server = 'hrw-fablab.de';
-const port = 9001;
-const path ="/ES/WS20/gruppe10";
-const clientID = 'gruppe10';
-const password = ',bxTfxXrUhG!BDQL';
-const topic = path.concat('lights');
+// const server = 'hrw-fablab.de';
+// const port = 9001;
+// const path ="/ES/WS20/gruppe10";
+// const clientID = 'gruppe10';
+// const password = ',bxTfxXrUhG!BDQL';
+// const topic = path.concat('lights');
 
-// const server = 'unix-yoga.de';
-// const port = 9002;
-// const clientID = 'color_triangle_frontend';
-// const password = 'nasf982z82h3jb508fw98dzfhnfijew';
-// const topic = 'lights';
+const server = 'unix-yoga.de';
+const port = 9002;
+const clientID = 'color_triangle_frontend';
+const password = 'nasf982z82h3jb508fw98dzfhnfijew';
+const topic = 'lights';
 
 
 const userID = "FC_" + makeid(15);
@@ -28,7 +28,7 @@ client.connect({
 	onSuccess: onConnect, 
 	userName : clientID,
     password: password,
-    // useSSL: true
+    useSSL: true
 });
 
 
@@ -46,7 +46,7 @@ function onConnectionLost(responseObject) {
 
 // called when a message arrives
 function onMessageArrived(message) {
-    console.log('arrived_message: ', message);
+    // console.log('arrived_message: ', message);
     onStorageUpdate(message.payloadString);
 }
 
