@@ -108,3 +108,4 @@ dist
 firebase-debug.log
 .firebase
 
+SvelteFrontend/.vscode
