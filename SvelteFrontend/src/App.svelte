@@ -1,4 +1,8 @@
 <script lang="ts">
+	import * as io from 'socket.io-client'
+	io.io().connect()
+
+
 	export let name: string;
 </script>
 
