@@ -1,6 +1,10 @@
 <script lang="ts">
-	import * as io from 'socket.io-client'
-	io.io().connect()
+	import { io } from 'socket.io-client';
+	const socket = io('https://nanoroot.xires.de')
+	socket.on('connect', () => {
+		socket.emit('test', 'dies ist ein test')
+		console.log('called');
+	})
 
 
 	export let name: string;

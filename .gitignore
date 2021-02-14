@@ -109,3 +109,5 @@ firebase-debug.log
 .firebase
 
 SvelteFrontend/.vscode
+
+*.pem
