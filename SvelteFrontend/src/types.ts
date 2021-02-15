@@ -27,3 +27,7 @@ export interface TimeoutDelay {
 export interface OnState {
     on: boolean
 }
+
+export interface SimpleColors {
+    simpleColors: string[]
+}
