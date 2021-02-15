@@ -5,6 +5,13 @@ export enum ModeTypes {
     SMOOTH_TRANSITIONING
 }
 
+export interface ConfiguredColors {
+    simpleColors: string[]
+    presetColors: string[][]
+    selectedIndex: number
+    simple: boolean
+}
+
 export interface Mode {
     mode: ModeTypes
 }

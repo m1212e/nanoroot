@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { io } from 'socket.io-client';
 	const socket = io('https://nanoroot.xires.de')
-	socket.on('connect', () => {
-		socket.emit('test', 'dies ist ein test')
-		console.log('called');
+	// socket.on('connect', () => {
+	// 	socket.emit('test', 'dies ist ein test')
+	// 	console.log('called');
+	// })
+	socket.on('test', (data) => {
+		console.log(data);
 	})
 
 
