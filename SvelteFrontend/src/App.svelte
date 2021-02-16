@@ -3,17 +3,6 @@
 	import ColorPicker from "./ColorPicker.svelte";
 	import Colors from "./Colors.svelte";
 	import ColorSets from "./ColorSets.svelte";
-	import { io } from "socket.io-client";
-	const socket = io("https://nanoroot.xires.de");
-	// socket.on('connect', () => {
-	// 	socket.emit('test', 'dies ist ein test')
-	// 	console.log('called');
-	// })
-	// socket.on("test", (data) => {
-	// 	console.log(data);
-	// });
-
-	export let name: string;
 </script>
 
 <main>
