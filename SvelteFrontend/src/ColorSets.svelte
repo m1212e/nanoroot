@@ -1,18 +1,14 @@
 <script>
   import ColorRect from "./ColorRect.svelte";
 
-  var sets = [
-    ['#25BE30', '#072497', '#C5F637'],
-    ['#EEF1EE', '#366B39', '#D089C2'],
-    ['#E2FE47', '#0DB3A2', '#E77311', '#341fcf', '#341fcf'],
-  ];
+  export var colorSets = undefined;
 
 </script>
 
 <div>
   <h2>Farbsets</h2>
   <div class="setContainer">
-    {#each sets as set}
+    {#each colorSets as set}
       <div class="row colorSet">
         {#each set as color}
           <ColorRect color={color} />

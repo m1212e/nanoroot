@@ -1,4 +1,6 @@
 <script lang="ts">
+import AddColor from "./AddColor.svelte";
+
   import ColorRect from "./ColorRect.svelte";
 
   export var colors = undefined;
@@ -9,7 +11,7 @@
   {#each colors as color, k}
     <ColorRect color={color} index={k} />
   {/each}
-  <!-- <AddColor /> -->
+  <AddColor currentSize={colors.length-1}/>
 </div>
 
 <style>

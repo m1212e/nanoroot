@@ -28,7 +28,7 @@
 		<div class="col-lg-3 glass area">
 			<div class="colors">
 				<Colors colors={colors} />
-				<ColorSets />
+				<ColorSets colorSets={colorSets} />
 			</div>
 			<Buttons />
 		</div>
