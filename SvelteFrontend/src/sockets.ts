@@ -1,4 +1,4 @@
-import type {ConfiguredColors} from './types';
+import type {ConfiguredColors, Mode} from './typeInterfacenterface';
 import {io} from "socket.io-client";
 const socket = io("https://nanoroot.xires.de");
 
@@ -19,12 +19,30 @@ export function onMode(callback) {
 }
 
 /**
+ * Pushes new Mode to other clients and the server
+ * 
+ * @param callback the new mode
+ */
+export function sendMode(mode: Mode) {
+    socket.emit('Mode', mode)
+}
+
+/**
  * Executes callback when a simple color is updated
  * 
  * @param callback function which is called with the new hex code
  */
 export function onSimpleColor(callback) {
     socket.on('simpleColor', callback)
+}
+
+/**
+ * Pushes new simple color to other clients and the server
+ * 
+ * @param callback the new simple color
+ */
+export function sendSimpleColor(mode: SimpleColor) {
+    socket.emit('Mode', mode)
 }
 
 /**
