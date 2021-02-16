@@ -13,14 +13,36 @@ export interface OnState {
     on: boolean
 }
 
-export interface SimpleColors {
-    colors: string[]
+export interface CurrentMode {
+    mode: ModeTypes
+}
+
+
+
+export interface SimpleColor {
+    color: string
 }
 
 export interface PresetColors {
-    colors: string[][]
+    colors: string[]
 }
 
-export interface SelectState {
+export interface SimpleColorsSelected {
     simpleColorsSelected: boolean
+}
+
+export interface CurrentSelectedIndex {
+    index: number
+}
+
+
+
+export interface State {
+    timeoutDelay: number,
+    onState: boolean,
+    simpleColors: string[],
+    presetColors: string[][],
+    simpleColorsSelected: boolean,
+    currentMode: ModeTypes,
+    index: number
 }
