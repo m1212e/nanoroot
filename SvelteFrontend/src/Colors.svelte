@@ -9,6 +9,7 @@
   {#each colors as color, k}
     <ColorRect color={color} index={k} />
   {/each}
+  <!-- <AddColor /> -->
 </div>
 
 <style>

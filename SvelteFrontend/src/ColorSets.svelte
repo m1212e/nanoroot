@@ -17,8 +17,10 @@
         {#each set as color}
           <ColorRect color={color} />
         {/each}
+        <!-- <AddColor /> -->
       </div>
     {/each}
+    <!-- <AddSet /> -->
   </div>
 </div>
 

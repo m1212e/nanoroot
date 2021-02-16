@@ -36,11 +36,9 @@
   }
 </script>
 
-<div id="box" class="w-50 mx-auto ar">
+<div id="box" class="w-50 mx-auto">
   <div id="picker" ></div>
-  <div class="row hexintput justify-content-center align-items-center">
-    <input on:input={changeColorByHex} id="hexColorInput" type="text" class="form-control">
-  </div>
+  <input on:input={changeColorByHex} id="hexColorInput" type="text" class="form-control hexintput">
 </div>
 
 
@@ -48,10 +46,6 @@
   .hexintput {
     width: 150px;
     margin-top: 2rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .ar {
-    background-color: blue;
+    margin-left: 1rem;
   }
 </style>
