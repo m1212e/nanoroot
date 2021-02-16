@@ -6,7 +6,7 @@ export enum ModeTypes {
 }
 
 export interface TimeoutDelay {
-    seconds: number
+    minutes: number
 }
 
 export interface OnState {
