@@ -1,10 +1,22 @@
 <script lang="ts">
 	import * as io from 'socket.io-client';
-import Buttons from './Buttons.svelte';
+	import Buttons from './Buttons.svelte';
 	import ColorPicker from './ColorPicker.svelte';
 	import Colors from './Colors.svelte';
 	import ColorSets from './ColorSets.svelte';
 	
+	var activeColor = 0;
+	
+	var colors = ['#25BE30', '#072497', '#C5F637', '#EEF1EE', '#366B39', 
+		'#D089C2', '#BD231B', '#53BBD3', '#E30DEF', '#4B1BAA',
+		'#E2FE47', '#E2FE47', '#0DB3A2', '#E77311', '#7aff6e',
+		'#784f19', '#341fcf'];
+	var colorSets = [
+    ['#25BE30', '#072497', '#C5F637'],
+    ['#EEF1EE', '#366B39', '#D089C2'],
+    ['#E2FE47', '#0DB3A2', '#E77311', '#341fcf', '#341fcf'],
+  ];
+
 	io.io().connect()
 
 
@@ -13,19 +25,19 @@ import Buttons from './Buttons.svelte';
 
 <main>
 	<div class="row d-flex justify-content-around layout align-items-center">
-		<div class="col-md-3 glass area">
+		<div class="col-lg-3 glass area">
 			<div class="colors">
-				<Colors />
+				<Colors colors={colors} />
 				<ColorSets />
 			</div>
 			<Buttons />
 		</div>
-		<div class="col-md-8 glass area">
+		<div class="col-lg-8 glass area">
 			<div class="row h-100 d-flex align-items-center">
-				<div class="col-md-8">
-					<ColorPicker />
+				<div class="col-lg-8">
+					<ColorPicker initColor={colors[activeColor]} />
 				</div>
-				<div class="col-md-4 h-100 d-flex flex-column align-items-center justify-content-around">
+				<div class="col-lg-4 h-100 d-flex flex-column align-items-center justify-content-around">
 					<i class="fab fa-itunes-note"></i>
 					<i class="fas fa-heartbeat"></i>
 					<i class="fas fa-rainbow"></i>
@@ -67,9 +79,6 @@ import Buttons from './Buttons.svelte';
 	}
 	.colors::-webkit-scrollbar {
 		display: none;
-	}
-	.modes {
-		/* height: 100%; */
 	}
 	i {
 		color: white;

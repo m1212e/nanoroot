@@ -1,8 +1,15 @@
 <script>
-  export var color;
+  export var color = undefined;
+  export var index = undefined;
+
+  function setActive(){
+    // TODO: aktivstatus an den server senden
+    console.log('selected: ', index);
+  }
+
 </script>
 
-<div style="--color: {color}" class="color">
+<div on:click={setActive} id="colorRect{index}" style="--color: {color}" class="color">
 
 </div>
 
