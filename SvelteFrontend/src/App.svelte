@@ -5,7 +5,6 @@
 	import ColorSets from "./ColorSets.svelte";
 	import { state } from "./sockets";
 
-	// test
 	// var activeColor = 0;
 
 	// 	var colors = ['#25BE30', '#072497', '#C5F637', '#EEF1EE', '#366B39',
