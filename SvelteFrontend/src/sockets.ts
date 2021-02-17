@@ -1,34 +1,43 @@
-import type {CurrentMode, CurrentSelectedIndex, OnState, PresetColors, SimpleColor, SimpleColorsSelected, State, TimeoutDelay} from './typeInterface';
+import type {CurrentMode, CurrentSelectedIndex, OnState, ChangePresetColors, ChangeSimpleColor, SimpleColorsSelected, State, TimeoutDelay, AddSimpleColor, RemoveSimpleColor, AddPresetColors, RemovePresetColors} from '../../NodeBackend/typeInterface';
 import {io} from "socket.io-client";
+import {writable} from 'svelte/store';
 
-const socket = io("https://nanoroot.xires.de");
+export const state = writable<State>(undefined);
+state.subscribe(data => console.log(data));
 
-/**
- * One time fetch of the current color object
- */
-export async function getCurrentColorObject(): Promise<State> {
-    return (await fetch(`https://nanoroot.xires.de/currentColorObject`)).json() as Promise<State>
-}
+// const socket = io("https://nanoroot.xires.de");//prod
+const socket = io("http://localhost:3000");//dev
 
 
-export function onTimeoutDelay(callback: (value: TimeoutDelay) => void) {
-    socket.on('TimeoutDelay', callback)
+// fetch(`https://nanoroot.xires.de/currentColorObject`).then(d => d.json()).then(d => state.set(d))
+socket.on('baseData', (d) => state.set(d))
+
+export function onTimeoutDelay() {
+    socket.on('TimeoutDelay', (data: TimeoutDelay) => {
+        state.update(current => {current.timeoutDelay = data.minutes; return current})
+    })
 }
 
 export function sendTimeoutDelay(value: TimeoutDelay) {
     socket.emit('TimeoutDelay', value)
 }
 
-export function onOnState(callback: (value: OnState) => void) {
-    socket.on('OnState', callback)
+
+export function onOnState() {
+    socket.on('OnState', (data: OnState) => {
+        state.update(current => {current.onState = data.on; return current})
+    })
 }
 
 export function sendOnState(value: OnState) {
     socket.emit('OnState', value)
 }
 
-export function onCurrentMode(callback: (value: CurrentMode) => void) {
-    socket.on('CurrentMode', callback)
+
+export function onCurrentMode() {
+    socket.on('CurrentMode', (data: CurrentMode) => {
+        state.update(current => {current.currentMode = data.mode; return current})
+    })
 }
 
 export function sendCurrentMode(value: CurrentMode) {
@@ -37,32 +46,108 @@ export function sendCurrentMode(value: CurrentMode) {
 
 
 
-export function onSimpleColor(callback: (value: SimpleColor) => void) {
-    socket.on('SimpleColor', callback)
+//TODO: ab hier weiter implementieren
+
+
+export function onChangeSimpleColor() {
+    socket.on('ChangeSimpleColor', (data: ChangeSimpleColor) => {
+        state.update(current => {
+            current.simpleColors[current.index] = data.color
+            return current
+        })
+    })
 }
 
-export function sendSimpleColor(value: SimpleColor) {
-    socket.emit('SimpleColor', value)
+export function sendChangeSimpleColor(value: ChangeSimpleColor) {
+    socket.emit('ChangeSimpleColor', value)
 }
 
-export function onPresetColors(callback: (value: PresetColors) => void) {
-    socket.on('PresetColors', callback)
+export function onAddSimpleColor() {
+    socket.on('AddSimpleColor', (data: AddSimpleColor) => {
+        state.update(current => {
+            current.simpleColors.push(data.color)
+            return current
+        })
+    })
 }
 
-export function sendPresetColors(value: PresetColors) {
-    socket.emit('PresetColors', value)
+export function sendAddSimpleColor(value: AddSimpleColor) {
+    socket.emit('AddSimpleColor', value)
 }
 
-export function onSimpleColorsSelected(callback: (value: SimpleColorsSelected) => void) {
-    socket.on('SimpleColorsSelected', callback)
+export function onRemoveSimpleColor() {
+    socket.on('RemoveSimpleColor', (data: RemoveSimpleColor) => {
+        state.update(current => {
+            current.simpleColors = current.simpleColors.slice(data.index, 1)
+            return current
+        })
+    })
+}
+
+export function sendRemoveSimpleColor(value: RemoveSimpleColor) {
+    socket.emit('RemoveSimpleColor', value)
+}
+
+
+
+
+export function onChangePresetColors() {
+    socket.on('ChangePresetColors', (data: ChangePresetColors) => {
+        state.update(current => {
+            current.presetColors[current.index] = data.colors
+            return current
+        })
+    })
+}
+
+export function sendChangePresetColors(value: ChangePresetColors) {
+    socket.emit('ChangePresetColors', value)
+}
+
+export function onAddPresetColors() {
+    socket.on('AddPresetColors',  (data: AddPresetColors) => {
+        state.update(current => {
+            current.presetColors.push(data.colors)
+            return current
+        })
+    })
+}
+
+export function sendAddPresetColors(value: AddPresetColors) {
+    socket.emit('AddPresetColors', value)
+}
+
+export function onRemovePresetColors() {
+    socket.on('RemovePresetColors', (data: RemovePresetColors) => {
+        state.update(current => {
+            current.presetColors = current.presetColors.slice(data.index, 1)
+            return current
+        })
+    })
+}
+
+export function sendRemovePresetColors(value: RemovePresetColors) {
+    socket.emit('RemovePresetColors', value)
+}
+
+
+
+
+export function onSimpleColorsSelected() {
+    socket.on('SimpleColorsSelected',  (data: SimpleColorsSelected) => {
+        state.update(current => {current.simpleColorsSelected = data.simpleColorsSelected; return current})
+    })
 }
 
 export function sendSimpleColorsSelected(value: SimpleColorsSelected) {
     socket.emit('SimpleColorsSelected', value)
 }
 
-export function onCurrentSelectedIndex(callback: (value: CurrentSelectedIndex) => void) {
-    socket.on('CurrentSelectedIndex', callback)
+
+export function onCurrentSelectedIndex() {
+    socket.on('CurrentSelectedIndex',  (data: CurrentSelectedIndex) => {
+        state.update(current => {current.index = data.index; return current})
+    })
 }
 
 export function sendCurrentSelectedIndex(value: CurrentSelectedIndex) {
