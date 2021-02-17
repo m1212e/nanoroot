@@ -5,8 +5,8 @@ import {State} from './typeInterface'
 
 
 export let state: State = {
-    simpleColors: ['#FFFFFF'],
-    presetColors: [['#FFFFFF', '#FAFAFA']],
+    simpleColors: ['#FFFFFF', '#eb4034'],
+    presetColors: [['#FFFFFF', '#eb4034']],
     index: 0,
     simpleColorsSelected: true,
     currentMode: 0,
