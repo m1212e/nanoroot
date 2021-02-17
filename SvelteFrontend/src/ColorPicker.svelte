@@ -2,19 +2,43 @@
   import iro from '@jaames/iro';
   import { onMount } from 'svelte';
 
-  var dompicker;
+  export var initColor = undefined;
+  var colorPicker = undefined;
+
   onMount(() => {
-    var colorPicker = new iro.ColorPicker(dompicker, {
-      width: 500
+    colorPicker = new iro.ColorPicker('#picker', {
+      width: handleSize(),
+      color: initColor
+    });
+    document.getElementById('hexColorInput').value = initColor;
+    colorPicker.on('color:change', (color) => {
+      document.getElementById('hexColorInput').value = color.hexString;
     });
   });
+
+  window.onresize = () => {
+    colorPicker.resize(handleSize());
+  }
+
+  function changeColorByHex(){
+    let hex = [...document.getElementById('hexColorInput').value].filter((e) => e !== '#').join('');
+    if(hex.length === 6){
+      colorPicker.color.hexString = '#' + hex;
+    }
+  }
+
+  var handleSize = () => {
+    if(window.innerWidth >= 1200){
+      return Math.min(650, window.innerWidth/3.5);
+    }else{
+      return 350;
+    }
+  }
 </script>
 
-<div class="w-50 mx-auto">
-  <div class="" id="picker" bind:this={dompicker}></div>
-  <div class="row hexintput justify-content-center align-items-center">
-    <input type="text" class="form-control" id='colorcode'>
-  </div>
+<div id="box" class="w-50 mx-auto">
+  <div id="picker" ></div>
+  <input on:input={changeColorByHex} id="hexColorInput" type="text" class="form-control hexintput">
 </div>
 
 
@@ -22,7 +46,6 @@
   .hexintput {
     width: 150px;
     margin-top: 2rem;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 1rem;
   }
 </style>

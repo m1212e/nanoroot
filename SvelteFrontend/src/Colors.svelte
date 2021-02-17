@@ -1,17 +1,17 @@
 <script lang="ts">
+import AddColor from "./AddColor.svelte";
+
   import ColorRect from "./ColorRect.svelte";
 
-  var colors = ['#25BE30', '#072497', '#C5F637', '#EEF1EE', '#366B39', 
-                '#D089C2', '#BD231B', '#53BBD3', '#E30DEF', '#4B1BAA',
-                '#E2FE47', '#E2FE47', '#0DB3A2', '#E77311', '#7aff6e',
-                '#784f19', '#341fcf']
+  export var colors = undefined;
 </script>
 
 <h2>Farben</h2>
 <div class="row colorContainer">
-  {#each colors as color}
-    <ColorRect color={color} />
+  {#each colors as color, k}
+    <ColorRect color={color} index={k} />
   {/each}
+  <AddColor currentSize={colors.length-1}/>
 </div>
 
 <style>
