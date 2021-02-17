@@ -1,6 +1,7 @@
 <script>
   import iro from '@jaames/iro';
   import { onMount } from 'svelte';
+import { sendChangeSimpleColor, state } from './sockets';
 
   export var initColor = undefined;
   var colorPicker = undefined;
@@ -13,6 +14,9 @@
     document.getElementById('hexColorInput').value = initColor;
     colorPicker.on('color:change', (color) => {
       document.getElementById('hexColorInput').value = color.hexString;
+      if($state.simpleColorsSelected){
+        sendChangeSimpleColor({color: color.hexString})
+      }
     });
   });
 

@@ -1,10 +1,9 @@
 <script>
-  export var currentSize = undefined;
+import { sendAddSimpleColor } from "./sockets";
+
 
   function add(){
-    // TODO: server mitteilen, dass neue Farbe hinzugefügt werden soll
-    console.log('added: ', currentSize, ' - ', currentSize+1);
-    // TODO: aktuell ausgewählte Farbe auf currentSize+1 setzt, damit diese direkt ausgewählt wird
+    sendAddSimpleColor({color: '#FFFFFF'})
   }
 
 </script>
@@ -20,6 +19,7 @@
     border: solid 3px white;
     border-radius: 25%;
     margin: .6rem;
+    cursor: pointer;
   }
   .add{
     color: white;

@@ -1,7 +1,12 @@
 <script lang="ts">
-import AddColor from "./AddColor.svelte";
+  import AddColor from "./AddColor.svelte";
 
   import ColorRect from "./ColorRect.svelte";
+  import {
+    sendCurrentSelectedIndex,
+    sendSimpleColorsSelected,
+    state,
+  } from "./sockets";
 
   export var colors = undefined;
 </script>
@@ -9,9 +14,16 @@ import AddColor from "./AddColor.svelte";
 <h2>Farben</h2>
 <div class="row colorContainer">
   {#each colors as color, k}
-    <ColorRect color={color} index={k} />
+    <ColorRect
+      on:clicked={() => {
+        sendSimpleColorsSelected({ simpleColorsSelected: true });
+        sendCurrentSelectedIndex({ index: k });
+      }}
+      {color}
+      selected={$state.index == k}
+    />
   {/each}
-  <AddColor currentSize={colors.length-1}/>
+  <AddColor />
 </div>
 
 <style>

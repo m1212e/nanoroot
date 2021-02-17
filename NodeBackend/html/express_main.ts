@@ -31,31 +31,31 @@ io.on('connection', (socket) => {
 
   socket.on('Mode', (data: CurrentMode) => {
     publishMQTT('Mode', data)
-    publishToAllWS(io.sockets.clients(), 'Mode', data)
+    publishToAllWS('Mode', data)
     state.currentMode = data.mode
   })
   socket.on('TimeoutDelay', (data: TimeoutDelay) => {
     publishMQTT('TimeoutDelay', data)
-    publishToAllWS(io.sockets.clients(), 'TimeoutDelay', data)
+    publishToAllWS('TimeoutDelay', data)
     state.timeoutDelay = data.minutes
   })
   socket.on('OnState', (data: OnState) => {
     publishMQTT('OnState', data)
-    publishToAllWS(io.sockets.clients(), 'OnState', data)
+    publishToAllWS('OnState', data)
     state.onState = data.on
   })
 
   socket.on('ChangeSimpleColor', (data: ChangeSimpleColor) => {
     publishMQTT('colors', [data.color])
-    publishToAllWS(io.sockets.clients(), 'ChangeSimpleColor', data)
+    publishToAllWS('ChangeSimpleColor', data)
     state.simpleColors[state.index] = data.color
   });
   socket.on('AddSimpleColor', (data: AddSimpleColor) => {
-    publishToAllWS(io.sockets.clients(), 'AddSimpleColor', data)
+    publishToAllWS('AddSimpleColor', data)
     state.simpleColors.push(data.color)
   });
   socket.on('RemoveSimpleColor', (data: RemoveSimpleColor) => {
-    publishToAllWS(io.sockets.clients(), 'RemoveSimpleColor', data)
+    publishToAllWS('RemoveSimpleColor', data)
     state.simpleColors = state.simpleColors.slice(data.index, 1)
     if (state.index == data.index) {
       state.index = 0
@@ -65,15 +65,15 @@ io.on('connection', (socket) => {
 
   socket.on('ChangePresetColors', (data: ChangePresetColors) => {
     publishMQTT('colors', data.colors)
-    publishToAllWS(io.sockets.clients(), 'ChangePresetColors', data)
+    publishToAllWS('ChangePresetColors', data)
     state.presetColors[state.index] = data.colors
   });
   socket.on('AddPresetColors', (data: AddPresetColors) => {
-    publishToAllWS(io.sockets.clients(), 'AddPresetColors', data)
+    publishToAllWS('AddPresetColors', data)
     state.presetColors.push(data.colors)
   });
   socket.on('RemovePresetColors', (data: RemovePresetColors) => {
-    publishToAllWS(io.sockets.clients(), 'RemovePresetColors', data)
+    publishToAllWS('RemovePresetColors', data)
     state.presetColors = state.presetColors.slice(data.index, 1)
     if (state.index == data.index) {
       state.index = 0
@@ -83,12 +83,12 @@ io.on('connection', (socket) => {
 
   socket.on('SimpleColorsSelected', (data: SimpleColorsSelected) => {
     publishMQTT('colors', data.simpleColorsSelected ? [state.simpleColors[state.index]] : state.presetColors[state.index])
-    publishToAllWS(io.sockets.clients(), 'SimpleColorsSelected', data)
+    publishToAllWS('SimpleColorsSelected', data)
     state.simpleColorsSelected = data.simpleColorsSelected
   });
   socket.on('CurrentSelectedIndex', (data: CurrentSelectedIndex) => {
     publishMQTT('colors', state.simpleColorsSelected ? [state.simpleColors[data.index]] : state.presetColors[data.index])
-    publishToAllWS(io.sockets.clients(), 'CurrentSelectedIndex', data)
+    publishToAllWS('CurrentSelectedIndex', data)
     state.index = data.index
   });
 });
@@ -97,8 +97,6 @@ http.listen(port, () => {
   console.log(`webserver listening on port ${port} (behind nginx)`);
 });
 
-export function publishToAllWS(clients: any, name: string, value: any) {
-  clients.forEach(client => {
-    client.emit(name, value)
-  });
+export function publishToAllWS(name: string, value: any) {
+  io.sockets.emit(name, value);
 }

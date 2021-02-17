@@ -1,17 +1,16 @@
 <script>
   export var color = undefined;
-  export var index = undefined;
+  export let selected = false;
 
-  function setActive(){
-    // TODO: aktivstatus an den server senden
-    console.log('selected: ', index);
-  }
-
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
 </script>
 
-<div on:click={setActive} id="colorRect{index}" style="--color: {color}" class="color">
-
-</div>
+<div
+  on:click={() => dispatch("clicked", { color })}
+  style="--color: {color}"
+  class="color {selected ? 'selected' : ''}"
+/>
 
 <style>
   .color {
@@ -19,6 +18,10 @@
     height: 50px;
     background-color: var(--color);
     border-radius: 25%;
-    margin: .6rem;
+    margin: 0.6rem;
+    cursor: pointer;
+  }
+  .selected {
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.5);
   }
 </style>

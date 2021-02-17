@@ -31,5 +31,6 @@
     border: 2px white solid;
     border-radius: 25px;
     margin-bottom: 1rem;
+    cursor: pointer;
   }
 </style>
