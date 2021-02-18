@@ -4,7 +4,7 @@ import {writable} from 'svelte/store';
 import {get} from 'svelte/store';
 
 export const state = writable<State>(undefined);
-state.subscribe(data => console.log(data));
+state.subscribe(data => console.log(Date.now(), data));
 
 // const socket = io("https://nanoroot.xires.de");//prod
 const socket = io("http://localhost:3000");//dev
@@ -43,11 +43,13 @@ export function getCurrentColorCode(): string {
     if (s.simpleColorsSelected) {
         return s.simpleColors[s.index] 
     } else {
-        console.log('1: ', s.presetColors, s.index);
-        console.log(s.presetColors[s.index]);
-        
-        return s.presetColors[s.index][s.presetColorsIndex]
-
+        let color
+        color = s.presetColors[s.index][s.presetColorsIndex]
+        if (color == undefined) {
+            color = s.presetColors[s.index][0]
+            state.update(current => {current.presetColorsIndex = 0; return current})
+        }
+        return color
     }
 }
 

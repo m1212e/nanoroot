@@ -1,44 +1,42 @@
 <script>
-  import iro from '@jaames/iro';
-  import { onMount } from 'svelte';
-  import { getCurrentColorCode, sendChangeColor, state } from './sockets';
+  import iro from "@jaames/iro";
+  import { onMount } from "svelte";
+  import { getCurrentColorCode, sendChangeColor, state } from "./sockets";
 
   var initColor = getCurrentColorCode();
   var colorPicker = undefined;
 
   onMount(() => {
-    colorPicker = new iro.ColorPicker('#picker', {
+    colorPicker = new iro.ColorPicker("#picker", {
       width: handleSize(),
-      color: initColor
+      color: initColor,
     });
 
-    document.getElementById('hexColorInput').value = initColor;
+    document.getElementById("hexColorInput").value = initColor;
 
-    colorPicker.on('color:change', (color) => {
-      document.getElementById('hexColorInput').value = color.hexString;
-      if($state.simpleColorsSelected){
-        sendChangeColor(color.hexString)
-      }
+    colorPicker.on("color:change", (color) => {
+      document.getElementById("hexColorInput").value = color.hexString;
+      sendChangeColor(color.hexString);
     });
 
-    state.subscribe(state => {
-      if(colorPicker.color.hexString != getCurrentColorCode()){
-        colorPicker.color.hexString = getCurrentColorCode()
+    state.subscribe((state) => {
+      if (colorPicker.color.hexString != getCurrentColorCode()) {
+        colorPicker.color.hexString = getCurrentColorCode();
       }
-    })
+    });
   });
 
   window.onresize = () => {
     colorPicker.resize(handleSize());
-  }
+  };
 
   var handleSize = () => {
-    if(window.innerWidth >= 1200){
-      return Math.min(650, window.innerWidth/3.5);
-    }else{
+    if (window.innerWidth >= 1200) {
+      return Math.min(650, window.innerWidth / 3.5);
+    } else {
       return 350;
     }
-  }
+  };
 </script>
 
 <div id="box" class="w-50 mx-auto">

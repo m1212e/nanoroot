@@ -1,6 +1,7 @@
 <script>
   import ColorRect from "./ColorRect.svelte";
   import {
+sendChangePresetColorsIndex,
     sendCurrentSelectedIndex,
     sendSimpleColorsSelected,
     state,
@@ -18,8 +19,12 @@
           sendSimpleColorsSelected({ simpleColorsSelected: false });
         }}
       >
-        {#each set as color}
-          <ColorRect {color} />
+        {#each set as color, i}
+          <ColorRect {color} on:clicked={() =>{
+            sendChangePresetColorsIndex({index: i})
+            
+          }}
+          selected={!$state.simpleColorsSelected && $state.index == k && $state.presetColorsIndex == i}/>
         {/each}
       </div>
     {/each}
