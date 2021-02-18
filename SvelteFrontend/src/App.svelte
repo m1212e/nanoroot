@@ -3,19 +3,7 @@
 	import ColorPicker from "./ColorPicker.svelte";
 	import Colors from "./Colors.svelte";
 	import ColorSets from "./ColorSets.svelte";
-	import { state } from "./sockets";
-
-	// var activeColor = 0;
-
-	// 	var colors = ['#25BE30', '#072497', '#C5F637', '#EEF1EE', '#366B39',
-	// 		'#D089C2', '#BD231B', '#53BBD3', '#E30DEF', '#4B1BAA',
-	// 		'#E2FE47', '#E2FE47', '#0DB3A2', '#E77311', '#7aff6e',
-	// 		'#784f19', '#341fcf'];
-	// 	var colorSets = [
-	//     ['#25BE30', '#072497', '#C5F637'],
-	//     ['#EEF1EE', '#366B39', '#D089C2'],
-	//     ['#E2FE47', '#0DB3A2', '#E77311', '#341fcf', '#341fcf'],
-	//   ];
+	import { getCurrentColorCode, state } from "./sockets";
 </script>
 
 <main>
@@ -28,8 +16,8 @@
 					</div>
 				{:then state}
 					{#if state != undefined}
-						<Colors colors={state.simpleColors} />
-						<ColorSets colorSets={state.presetColors} />
+						<Colors />
+						<ColorSets />
 					{/if}
 				{/await}
 			</div>
@@ -39,14 +27,12 @@
 			<div class="row h-100 d-flex align-items-center">
 				<div class="col-lg-8">
 					{#await $state}
-					<div class="spinner-border text-light" role="status">
-						<span class="visually-hidden">Loading...</span>
-					</div>
+						<div class="spinner-border text-light" role="status">
+							<span class="visually-hidden">Loading...</span>
+						</div>
 					{:then state}
 						{#if state != undefined}
-								<ColorPicker
-									initColor={state.simpleColors[state.index]}
-								/>
+							<ColorPicker />
 						{/if}
 					{/await}
 				</div>

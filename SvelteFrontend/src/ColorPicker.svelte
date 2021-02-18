@@ -3,7 +3,7 @@
   import { onMount } from 'svelte';
   import { getCurrentColorCode, sendChangeColor, state } from './sockets';
 
-  export var initColor = undefined;
+  var initColor = getCurrentColorCode();
   var colorPicker = undefined;
 
   onMount(() => {

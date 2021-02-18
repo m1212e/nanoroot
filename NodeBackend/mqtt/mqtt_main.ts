@@ -1,3 +1,4 @@
+import {state} from '../main'
 import {isAuthenticated} from './auth'
 // const fs = require('fs');
 
@@ -51,16 +52,36 @@ aedes.authorizePublish = function(client, packet, callback) {
 
 export {aedes}
 // aedes.authorizePublish = function(client, packet, callback) {
-  // console.log(Date.now() + ' Trying to authorize pub...');
-  // if (packet.topic !== 'lights') {
-  //   return callback(new Error('wrong topic'))
-  // } else {
-  //   currentLightsObject = packet.payload.toString();
-  //   callback(null)
-  // }
+// console.log(Date.now() + ' Trying to authorize pub...');
+// if (packet.topic !== 'lights') {
+//   return callback(new Error('wrong topic'))
+// } else {
+//   currentLightsObject = packet.payload.toString();
+//   callback(null)
+// }
 // }
 
 
-export function publishMQTT(topic: string, data: any) {
+export function publishMQTTTopic(topic: string, data: any) {
+  if (topic == 'colors') {
+    console.error('Colors should be pushed by publishMQTTColors!')
+    return;
+  }
   aedes.publish({topic: topic, payload: data}, null)
+}
+
+let lastPublish
+
+export function publishMQTTColors() {
+  let data
+  if (state.simpleColorsSelected) {
+    data = [state.simpleColors[state.index]]
+  } else {
+    data = state.presetColors[state.index]
+  }
+
+  if (data != undefined && data != lastPublish) {
+    lastPublish = data
+    aedes.publish({topic: 'colors', payload: data}, null)
+  }
 }

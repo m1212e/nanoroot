@@ -11,5 +11,6 @@ export let state: State = {
     simpleColorsSelected: true,
     currentMode: 0,
     timeoutDelay: 5,
-    onState: true
+    onState: true,
+    presetColorsIndex: 0
 }

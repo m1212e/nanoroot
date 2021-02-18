@@ -8,19 +8,18 @@
     state,
   } from "./sockets";
 
-  export var colors = undefined;
 </script>
 
 <h2>Farben</h2>
 <div class="row colorContainer">
-  {#each colors as color, k}
+  {#each $state.simpleColors as color, k}
     <ColorRect
       on:clicked={() => {
         sendSimpleColorsSelected({ simpleColorsSelected: true });
         sendCurrentSelectedIndex({ index: k });
       }}
       {color}
-      selected={$state.index == k}
+      selected={$state.simpleColorsSelected && $state.index == k}
     />
   {/each}
   <AddColor />

@@ -5,6 +5,25 @@ export enum ModeTypes {
     SMOOTH_TRANSITIONING
 }
 
+export interface State {
+    timeoutDelay: number
+    onState: boolean
+    simpleColors: string[]
+    presetColors: string[][]
+    simpleColorsSelected: boolean
+    currentMode: ModeTypes
+    index: number
+    presetColorsIndex: number
+}
+
+export interface SimpleColorsSelected {
+    simpleColorsSelected: boolean
+}
+
+export interface CurrentSelectedIndex {
+    index: number
+}
+
 export interface TimeoutDelay {
     minutes: number
 }
@@ -32,10 +51,6 @@ export interface RemoveSimpleColor {
 }
 
 
-export interface ChangePresetColors {
-    colors: string[]
-}
-
 export interface AddPresetColors {
     colors: string[]
 }
@@ -44,23 +59,18 @@ export interface RemovePresetColors {
     index: number
 }
 
-
-export interface SimpleColorsSelected {
-    simpleColorsSelected: boolean
-}
-
-export interface CurrentSelectedIndex {
+export interface ChangePresetColorsIndex {
     index: number
 }
 
+export interface ChangePresetColor {
+    color: string
+}
 
+export interface AddPresetColor {
+    color: string
+}
 
-export interface State {
-    timeoutDelay: number,
-    onState: boolean,
-    simpleColors: string[],
-    presetColors: string[][],
-    simpleColorsSelected: boolean,
-    currentMode: ModeTypes,
+export interface RemovePresetColor {
     index: number
 }
