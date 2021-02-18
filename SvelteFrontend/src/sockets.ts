@@ -6,8 +6,8 @@ import {get} from 'svelte/store';
 export const state = writable<State>(undefined);
 state.subscribe(data => console.log(Date.now(), data));
 
-// const socket = io("https://nanoroot.xires.de");//prod
-const socket = io("http://localhost:3000");//dev
+const socket = io("https://nanoroot.xires.de");//prod
+// const socket = io("http://localhost:3000");//dev
 
 
 // fetch(`https://nanoroot.xires.de/currentColorObject`).then(d => d.json()).then(d => state.set(d))

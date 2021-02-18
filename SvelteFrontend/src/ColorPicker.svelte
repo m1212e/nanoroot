@@ -26,6 +26,14 @@
     });
   });
 
+  function changeColorByHex(hex){
+    hex = hex.replace('#', '');
+    console.log(hex);
+    if(hex.length === 6){
+      sendChangeColor('#' + hex);
+    }
+  }
+
   window.onresize = () => {
     colorPicker.resize(handleSize());
   };
@@ -42,7 +50,7 @@
 <div id="box" class="w-50 mx-auto">
   <div id="picker" />
   <input
-    on:input={(data) => sendChangeColor(data.target.value)}
+    on:input={(data) => changeColorByHex(data.target.value)}
     id="hexColorInput"
     type="text"
     class="form-control hexintput"
