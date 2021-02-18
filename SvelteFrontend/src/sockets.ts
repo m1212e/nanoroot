@@ -13,6 +13,43 @@ const socket = io("http://localhost:3000");//dev
 // fetch(`https://nanoroot.xires.de/currentColorObject`).then(d => d.json()).then(d => state.set(d))
 socket.on('baseData', (d) => state.set(d))
 
+const hexRegex = new RegExp('^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$')
+let timer;
+/**
+ * Sends a color change dependent on the currently selected colors
+ * 
+ * @param color color hex string (e.g. '#FFFFFF' for white)
+ */
+export function sendChangeColor(color: string) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+        if (hexRegex.test(color)) {
+            if (get(state).simpleColorsSelected) {
+                sendChangeSimpleColor({color})
+            } else {
+                //TODO: IMPLEMENT
+                throw 'TODO: IMPLEMENT!'
+            }
+        } else {
+            console.error('Detected invalid color. Not sending.')
+        }
+    }, 50);
+}
+
+/**
+ * @returns The currently shown color code as hex string
+ */
+export function getCurrentColorCode(): string {
+    const s = get(state)
+    if (s.simpleColorsSelected) {
+        return s.simpleColors[s.index] 
+    } else {
+        //TODO: IMPLEMENT
+        throw 'IMPLEMENT!'
+
+    }
+}
+
 socket.on('TimeoutDelay', (data: TimeoutDelay) => {
     state.update(current => {current.timeoutDelay = data.minutes; return current})
 })

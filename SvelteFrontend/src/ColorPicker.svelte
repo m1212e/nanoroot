@@ -1,7 +1,7 @@
 <script>
   import iro from '@jaames/iro';
   import { onMount } from 'svelte';
-import { sendChangeSimpleColor, state } from './sockets';
+  import { getCurrentColorCode, sendChangeColor, state } from './sockets';
 
   export var initColor = undefined;
   var colorPicker = undefined;
@@ -11,24 +11,25 @@ import { sendChangeSimpleColor, state } from './sockets';
       width: handleSize(),
       color: initColor
     });
+
     document.getElementById('hexColorInput').value = initColor;
+
     colorPicker.on('color:change', (color) => {
       document.getElementById('hexColorInput').value = color.hexString;
       if($state.simpleColorsSelected){
-        sendChangeSimpleColor({color: color.hexString})
+        sendChangeColor(color.hexString)
       }
     });
+
+    state.subscribe(state => {
+      if(colorPicker.color.hexString != getCurrentColorCode()){
+        colorPicker.color.hexString = getCurrentColorCode()
+      }
+    })
   });
 
   window.onresize = () => {
     colorPicker.resize(handleSize());
-  }
-
-  function changeColorByHex(){
-    let hex = [...document.getElementById('hexColorInput').value].filter((e) => e !== '#').join('');
-    if(hex.length === 6){
-      colorPicker.color.hexString = '#' + hex;
-    }
   }
 
   var handleSize = () => {
@@ -41,10 +42,14 @@ import { sendChangeSimpleColor, state } from './sockets';
 </script>
 
 <div id="box" class="w-50 mx-auto">
-  <div id="picker" ></div>
-  <input on:input={changeColorByHex} id="hexColorInput" type="text" class="form-control hexintput">
+  <div id="picker" />
+  <input
+    on:input={(data) => sendChangeColor(data.target.value)}
+    id="hexColorInput"
+    type="text"
+    class="form-control hexintput"
+  />
 </div>
-
 
 <style>
   .hexintput {

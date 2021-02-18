@@ -39,20 +39,14 @@
 			<div class="row h-100 d-flex align-items-center">
 				<div class="col-lg-8">
 					{#await $state}
-						<div class="spinner-border text-light" role="status">
-							<span class="visually-hidden">Loading...</span>
-						</div>
+					<div class="spinner-border text-light" role="status">
+						<span class="visually-hidden">Loading...</span>
+					</div>
 					{:then state}
 						{#if state != undefined}
-							{#if state.simpleColorsSelected}
 								<ColorPicker
 									initColor={state.simpleColors[state.index]}
 								/>
-							{:else}
-								<ColorPicker
-									initColor={state.presetColors[state.index][0]}
-								/>
-							{/if}
 						{/if}
 					{/await}
 				</div>
