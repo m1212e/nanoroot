@@ -11,7 +11,7 @@ export let state: State = {
         ['#eb4034', '#32a852', '#32a872', '#32a8a2']],
     index: 0,
     simpleColorsSelected: true,
-    currentMode: 0,
+    currentMode: 1,
     timeoutDelay: 5,
     onState: true,
     presetColorsIndex: 0

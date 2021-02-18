@@ -3,7 +3,7 @@
 	import ColorPicker from "./ColorPicker.svelte";
 	import Colors from "./Colors.svelte";
 	import ColorSets from "./ColorSets.svelte";
-	import { getCurrentColorCode, state } from "./sockets";
+	import { sendCurrentMode, state } from "./sockets";
 </script>
 
 <main>
@@ -39,10 +39,34 @@
 				<div
 					class="col-lg-4 h-100 d-flex flex-column align-items-center justify-content-around"
 				>
-					<i class="fab fa-itunes-note" />
-					<i class="fas fa-heartbeat" />
-					<i class="fas fa-rainbow" />
-					<i class="fas fa-redo-alt" />
+					<i
+						on:click={() => sendCurrentMode({ mode: 0 })}
+						class="fab fa-itunes-note {$state != undefined &&
+						$state.currentMode == 0
+							? 'selected'
+							: ''}"
+					/>
+					<i
+						on:click={() => sendCurrentMode({ mode: 1 })}
+						class="fas fa-heartbeat {$state != undefined &&
+						$state.currentMode == 1
+							? 'selected'
+							: ''}"
+					/>
+					<i
+						on:click={() => sendCurrentMode({ mode: 2 })}
+						class="fas fa-rainbow {$state != undefined &&
+						$state.currentMode == 2
+							? 'selected'
+							: ''}"
+					/>
+					<i
+						on:click={() => sendCurrentMode({ mode: 3 })}
+						class="fas fa-redo-alt {$state != undefined &&
+						$state.currentMode == 3
+							? 'selected'
+							: ''}"
+					/>
 				</div>
 			</div>
 		</div>
@@ -83,5 +107,10 @@
 	i {
 		color: white;
 		font-size: 6rem;
+		cursor: pointer;
+	}
+	.selected {
+		text-shadow: 4px 6px rgba(85, 85, 85, 0.75);
+		transition: 0.3s;
 	}
 </style>

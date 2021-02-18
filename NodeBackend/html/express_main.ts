@@ -43,10 +43,10 @@ io.on('connection', (socket) => {
       state.index = data.index
     }
   });
-  socket.on('Mode', (data: CurrentMode) => {
+  socket.on('CurrentMode', (data: CurrentMode) => {
     if (data.mode != state.currentMode) {
-      publishMQTTTopic('Mode', data)
-      publishToAllWS('Mode', data)
+      publishMQTTTopic('CurrentMode', data)
+      publishToAllWS('CurrentMode', data)
       state.currentMode = data.mode
     }
   })
