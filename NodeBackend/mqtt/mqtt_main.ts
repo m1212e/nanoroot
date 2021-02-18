@@ -38,7 +38,12 @@ aedes.authenticate = function(client, username, password, callback) {
 aedes.authorizeSubscribe = function(client, sub, callback) {
   console.log(Date.now() + ' Trying to authorize sub...');
 
-  if (sub.topic !== 'lights') {
+  if (
+    sub.topic !== 'CurrentMode' ||
+    sub.topic !== 'TimeoutDelay' ||
+    sub.topic !== 'OnState' ||
+    sub.topic !== 'colors'
+  ) {
     return callback(new Error('wrong topic'))
   } else {
     callback(null, sub)

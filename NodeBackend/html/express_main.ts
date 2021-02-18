@@ -45,21 +45,21 @@ io.on('connection', (socket) => {
   });
   socket.on('CurrentMode', (data: CurrentMode) => {
     if (data.mode != state.currentMode) {
-      publishMQTTTopic('CurrentMode', data)
+      publishMQTTTopic('CurrentMode', data.mode)
       publishToAllWS('CurrentMode', data)
       state.currentMode = data.mode
     }
   })
   socket.on('TimeoutDelay', (data: TimeoutDelay) => {
     if (data.minutes != state.timeoutDelay) {
-      publishMQTTTopic('TimeoutDelay', data)
+      publishMQTTTopic('TimeoutDelay', data.minutes)
       publishToAllWS('TimeoutDelay', data)
       state.timeoutDelay = data.minutes
     }
   })
   socket.on('OnState', (data: OnState) => {
     if (data.on != state.onState) {
-      publishMQTTTopic('OnState', data)
+      publishMQTTTopic('OnState', data.on)
       publishToAllWS('OnState', data)
       state.onState = data.on
     }
