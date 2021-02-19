@@ -6,8 +6,8 @@ import {get} from 'svelte/store';
 export const state = writable<State>(undefined);
 state.subscribe(data => console.log(Date.now(), data));
 
-const socket = io("https://nanoroot.xires.de");//prod
-// const socket = io("http://localhost:3000");//dev
+// const socket = io("https://nanoroot.xires.de");//prod
+const socket = io("http://localhost:3000");//dev
 
 
 // fetch(`https://nanoroot.xires.de/currentColorObject`).then(d => d.json()).then(d => state.set(d))
@@ -127,7 +127,10 @@ export function sendAddSimpleColor(value: AddSimpleColor) {
 
 socket.on('RemoveSimpleColor', (data: RemoveSimpleColor) => {
     state.update(current => {
-        current.simpleColors = current.simpleColors.slice(data.index, 1)
+        current.simpleColors.splice(data.index, 1)
+        if (data.index == current.index) { 
+            current.index = 0
+        }
         return current
     })
 })
@@ -150,7 +153,7 @@ export function sendAddPresetColors(value: AddPresetColors) {
 
 socket.on('RemovePresetColors', (data: RemovePresetColors) => {
     state.update(current => {
-        current.presetColors = current.presetColors.slice(data.index, 1)
+        current.presetColors = current.presetColors.splice(data.index, 1)
         return current
     })
 })
@@ -190,7 +193,7 @@ export function sendAddPresetColor(value: AddPresetColor) {
 
 socket.on('RemovePresetColor', (data: RemovePresetColor) => {
     state.update(current => {
-        current.presetColors[current.index] = current.presetColors[current.index].slice(data.index, 1)
+        current.presetColors[current.index] = current.presetColors[current.index].splice(data.index, 1)
         return current
     })
 })

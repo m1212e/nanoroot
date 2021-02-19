@@ -77,9 +77,9 @@ io.on('connection', (socket) => {
     state.simpleColors.push(data.color)
   });
   socket.on('RemoveSimpleColor', (data: RemoveSimpleColor) => {
-    if (state.simpleColors.length > 0) {
+    if (state.simpleColors.length > 1) {
       publishToAllWS('RemoveSimpleColor', data)
-      state.simpleColors = state.simpleColors.slice(data.index, 1)
+      state.simpleColors.splice(data.index, 1)
       if (state.index == data.index) {
         state.index = 0
         publishMQTTColors()

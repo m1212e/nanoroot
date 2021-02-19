@@ -2,7 +2,8 @@ export enum ModeTypes {
     MUSIC,
     RAINBOW,
     PULSATING,
-    SMOOTH_TRANSITIONING
+    SMOOTH_TRANSITIONING,
+    DEFAULT
 }
 
 export interface State {
