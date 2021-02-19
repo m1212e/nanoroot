@@ -67,6 +67,13 @@
 							? 'selected'
 							: ''}"
 					/>
+					<i
+						on:click={() => sendCurrentMode({ mode: 4 })}
+						class="far fa-lightbulb {$state != undefined &&
+						$state.currentMode == 4
+							? 'selected'
+							: ''}"
+					/>
 				</div>
 			</div>
 		</div>
