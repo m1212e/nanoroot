@@ -189,6 +189,7 @@ socket.on('AddPresetColor', (data: AddPresetColor) => {
 })
 export function sendAddPresetColor(value: AddPresetColor) {
     socket.emit('ChangePresetColor', value)
+    // TODO: Farbe wird immer an erster stelle erstetzt, statt hinten hinzuzufügen
 }
 
 socket.on('RemovePresetColor', (data: RemovePresetColor) => {

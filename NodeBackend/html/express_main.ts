@@ -90,6 +90,7 @@ io.on('connection', (socket) => {
   socket.on('AddPresetColors', (data: AddPresetColors) => {
     publishToAllWS('AddPresetColors', data)
     state.presetColors.push(data.colors)
+    // TODO: wenn eine neues Set hinzugefügt wird soll das erste Element daraus direkt ausgewählt werden
   });
   socket.on('RemovePresetColors', (data: RemovePresetColors) => {
     if (state.presetColors.length > 0) {
@@ -110,6 +111,7 @@ io.on('connection', (socket) => {
   socket.on('AddPresetColor', (data: AddPresetColor) => {
     publishToAllWS('AddPresetColor', data)
     state.presetColors[state.index].push(data.color)
+    // TODO: Farbe wird immer an erster stelle erstetzt, statt hinten hinzuzufügen
   });
   socket.on('RemovePresetColor', (data: RemovePresetColor) => {
     if (state.presetColors[state.index].length > 0) {

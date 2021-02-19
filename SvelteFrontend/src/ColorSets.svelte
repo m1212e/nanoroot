@@ -1,7 +1,9 @@
 <script>
+  import AddSet from "./AddSet.svelte";
+import AddSetColor from "./AddSetColor.svelte";
   import ColorRect from "./ColorRect.svelte";
   import {
-sendChangePresetColorsIndex,
+    sendChangePresetColorsIndex,
     sendCurrentSelectedIndex,
     sendSimpleColorsSelected,
     state,
@@ -26,8 +28,10 @@ sendChangePresetColorsIndex,
           }}
           selected={!$state.simpleColorsSelected && $state.index == k && $state.presetColorsIndex == i}/>
         {/each}
+        <AddSetColor />
       </div>
     {/each}
+    <AddSet />
   </div>
 </div>
 
@@ -47,7 +51,7 @@ sendChangePresetColorsIndex,
   }
 
   .selected {
-    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.5);
+    box-shadow:  5px 5px 12px 3px rgba(0, 0, 0, .5);
     transition: 0.3s;
   }
 </style>

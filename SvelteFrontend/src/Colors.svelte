@@ -1,7 +1,7 @@
 <script lang="ts">
 import { current_component } from "svelte/internal";
 
-  import AddColor from "./AddColor.svelte";
+  import AddSimpleColor from "./AddSimpleColor.svelte";
 
   import ColorRect from "./ColorRect.svelte";
   import {
@@ -38,7 +38,7 @@ import { current_component } from "svelte/internal";
       selected={$state.simpleColorsSelected && $state.index == k}
     />
   {/each}
-  <AddColor />
+  <AddSimpleColor />
 </div>
 
 <style>
