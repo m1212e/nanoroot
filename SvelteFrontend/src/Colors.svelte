@@ -7,7 +7,7 @@
     state,
   } from "./sockets";
 
-  export var deleteModeOn: boolean = false;
+  export let deleteModeOn: boolean = false;
 
 </script>
 
