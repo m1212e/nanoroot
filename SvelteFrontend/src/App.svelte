@@ -22,6 +22,9 @@ import { onMount } from "svelte";
 			}
 		}
 	});
+
+	var deleteModeOn: boolean = false;
+
 </script>
 
 <main>
@@ -34,8 +37,11 @@ import { onMount } from "svelte";
 					</div>
 				{:then state}
 					{#if state != undefined}
-						<Colors />
-						<ColorSets />
+						<i class="fas fa-trash trash {deleteModeOn ? 'trash_active' : ''}"
+							on:click={() => deleteModeOn = !deleteModeOn}
+						></i>
+						<Colors {deleteModeOn} />
+						<ColorSets {deleteModeOn} />
 					{/if}
 				{/await}
 			</div>
@@ -61,35 +67,35 @@ import { onMount } from "svelte";
 				>
 					<i
 						on:click={() => sendCurrentMode({ mode: 0 })}
-						class="fab fa-itunes-note {$state != undefined &&
+						class="fab fa-itunes-note mode {$state != undefined &&
 						$state.currentMode == 0
 							? 'selected'
 							: ''}"
 					/>
 					<i
 						on:click={() => sendCurrentMode({ mode: 1 })}
-						class="fas fa-heartbeat {$state != undefined &&
+						class="fas fa-heartbeat mode {$state != undefined &&
 						$state.currentMode == 1
 							? 'selected'
 							: ''}"
 					/>
 					<i
 						on:click={() => sendCurrentMode({ mode: 2 })}
-						class="fas fa-rainbow {$state != undefined &&
+						class="fas fa-rainbow 2x mode {$state != undefined &&
 						$state.currentMode == 2
 							? 'selected'
 							: ''}"
 					/>
 					<i
 						on:click={() => sendCurrentMode({ mode: 3 })}
-						class="fas fa-redo-alt {$state != undefined &&
+						class="fas fa-redo-alt mode {$state != undefined &&
 						$state.currentMode == 3
 							? 'selected'
 							: ''}"
 					/>
 					<i
 						on:click={() => sendCurrentMode({ mode: 4 })}
-						class="far fa-lightbulb {$state != undefined &&
+						class="far fa-lightbulb mode {$state != undefined &&
 						$state.currentMode == 4
 							? 'selected'
 							: ''}"
@@ -118,11 +124,24 @@ import { onMount } from "svelte";
 		margin-bottom: 2rem;
 	}
 
+	.trash {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+		color: white;
+		cursor: pointer;
+		font-size: 1.3rem;
+  }
+
+	.trash_active {
+		color: red;
+	}
+
 	.colors::-webkit-scrollbar {
 		display: none;
 	}
 
-	i {
+	.mode {
 		color: white;
 		font-size: 4rem;
 		cursor: pointer;
@@ -169,7 +188,7 @@ import { onMount } from "svelte";
 			scrollbar-width: none; /* Firefox */
 		}
 
-		i {
+		.mode {
 			font-size: 6rem;
 		}
 	}

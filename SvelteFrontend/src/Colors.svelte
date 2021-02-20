@@ -11,15 +11,11 @@ import { current_component } from "svelte/internal";
     state,
   } from "./sockets";
 
-  var deleteModeOn = false;
+  export var deleteModeOn: boolean = false;
 
 </script>
 
-<h2 on:click={() => {
-    deleteModeOn = !deleteModeOn; 
-    console.log('deleteModeOn: ', deleteModeOn);
-  }}
->Farben</h2>
+<h2>Farben</h2>
 <div class="row colorContainer">
   {#each $state.simpleColors as color, k}
     <ColorRect

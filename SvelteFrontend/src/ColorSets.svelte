@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
   import AddSet from "./AddSet.svelte";
-import AddSetColor from "./AddSetColor.svelte";
+  import AddSetColor from "./AddSetColor.svelte";
   import ColorRect from "./ColorRect.svelte";
   import {
     sendChangePresetColorsIndex,
@@ -8,6 +8,8 @@ import AddSetColor from "./AddSetColor.svelte";
     sendSimpleColorsSelected,
     state,
   } from "./sockets";
+
+  export var deleteModeOn: boolean = false;
 </script>
 
 <div>
@@ -23,12 +25,16 @@ import AddSetColor from "./AddSetColor.svelte";
       >
         {#each set as color, i}
           <ColorRect {color} on:clicked={() =>{
-            sendChangePresetColorsIndex({index: i})
-            
+            if(deleteModeOn){
+              // TODO: Löschen für einzelne Farbe im Farbset
+              console.log('Löschen für einzelne Farbe im Farbset');
+            }else{
+              sendChangePresetColorsIndex({index: i})
+            }
           }}
           selected={!$state.simpleColorsSelected && $state.index == k && $state.presetColorsIndex == i}/>
         {/each}
-        <AddSetColor />
+        <AddSetColor toDelete={k} {deleteModeOn}  />
       </div>
     {/each}
     <AddSet />
