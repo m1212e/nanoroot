@@ -1,15 +1,11 @@
 <script>
-import AddSetColor from "./AddSetColor.svelte";
-import { sendAddPresetColors } from "./sockets";
-
-
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
 </script>
 
 <div
   class="row colorSet justify-content-center"
-  on:click={() => {
-    sendAddPresetColors({colors: ['#ffffff']})
-  }}
+  on:click|stopPropagation
 >
   <div class="color">
     <span class="add"> + </span>
@@ -29,12 +25,12 @@ import { sendAddPresetColors } from "./sockets";
     width: 50px;
     height: 50px;
     border: solid 0px white;
-    margin: .6rem;
+    margin: 0.6rem;
     cursor: pointer;
   }
-  .add{
-      color: white;
-      font-size: 1.6rem;
-      font-weight: bold;
-    }
+  .add {
+    color: white;
+    font-size: 1.6rem;
+    font-weight: bold;
+  }
 </style>

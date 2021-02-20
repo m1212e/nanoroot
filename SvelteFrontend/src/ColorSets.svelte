@@ -2,12 +2,7 @@
   import AddSet from "./AddSet.svelte";
   import AddSetColor from "./AddSetColor.svelte";
   import ColorRect from "./ColorRect.svelte";
-  import {
-    sendChangePresetColorsIndex,
-    sendCurrentSelectedIndex,
-    sendSimpleColorsSelected,
-    state,
-  } from "./sockets";
+  import { state } from "./sockets";
 
   export var deleteModeOn: boolean = false;
 </script>
@@ -17,27 +12,64 @@
   <div class="setContainer">
     {#each $state.presetColors as set, k}
       <div
-        class="row colorSet {!$state.simpleColorsSelected && $state.index == k ? 'selected' : ''}"
+        class="row colorSet {!$state.simpleColorsSelected && $state.index == k
+          ? 'selected'
+          : ''}"
         on:click={() => {
-          sendCurrentSelectedIndex({ index: k });
-          sendSimpleColorsSelected({ simpleColorsSelected: false });
+          if ($state.index != k || $state.simpleColorsSelected != false) {
+            state.update((s) => {
+              s.presetColorsIndex = 0;
+              s.index = k;
+              s.simpleColorsSelected = false;
+              return s;
+            });
+          }
         }}
       >
         {#each set as color, i}
-          <ColorRect {color} on:clicked={() =>{
-            if(deleteModeOn){
-              // TODO: Löschen für einzelne Farbe im Farbset
-              console.log('Löschen für einzelne Farbe im Farbset');
-            }else{
-              sendChangePresetColorsIndex({index: i})
-            }
+          <ColorRect
+            {color}
+            on:click={() => {
+              if(deleteModeOn){
+                //TODO: implement
+              } else {
+                state.update((s) => {
+                  s.index = k;
+                  s.simpleColorsSelected = false;
+                  s.presetColorsIndex = i;
+                  return s;
+                });
+              }
+            }}
+            selected={!$state.simpleColorsSelected &&
+              $state.index == k &&
+              $state.presetColorsIndex == i}
+          />
+          {/each}
+          <AddSetColor toDelete={k} {deleteModeOn} 
+          on:click={() => {
+            state.update((s) => {
+              s.simpleColorsSelected = false;
+              s.index = k;
+              s.presetColors[s.index].push("#ffffff");
+              s.presetColorsIndex = s.presetColors[s.index].length - 1;
+              return s;
+            });
           }}
-          selected={!$state.simpleColorsSelected && $state.index == k && $state.presetColorsIndex == i}/>
-        {/each}
-        <AddSetColor toDelete={k} {deleteModeOn}  />
+        />
       </div>
     {/each}
-    <AddSet />
+    <AddSet
+      on:click={() => {
+        state.update((s) => {
+          s.simpleColorsSelected = false;
+          s.presetColors.push(["#ffffff"]);
+          s.presetColorsIndex = 0;
+          s.index = s.presetColors.length - 1;
+          return s;
+        });
+      }}
+    />
   </div>
 </div>
 
@@ -57,7 +89,7 @@
   }
 
   .selected {
-    box-shadow:  5px 5px 12px 3px rgba(0, 0, 0, .5);
+    box-shadow: 5px 5px 12px 3px rgba(0, 0, 0, 0.5);
     transition: 0.3s;
   }
 </style>

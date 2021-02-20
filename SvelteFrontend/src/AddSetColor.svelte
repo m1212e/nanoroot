@@ -1,26 +1,23 @@
 <script>
-  import { null_to_empty } from "svelte/internal";
-  import { sendAddPresetColor } from "./sockets";
-  
     export var deleteModeOn = false;
     export var toDelete = undefined;
   
-    function handleClick(){
-      if(deleteModeOn){
-        if(toDelete != undefined){
-          // TODO: Set aus Colorsets löschen. (toDelete ist der index)
-          console.log('Ganzes Farbset Löschen');
-        }else{
-          console.log('Can not delete undefined');
-        }
-      }else{
-        sendAddPresetColor({color: '#ffffff'});
-      }
-    }
+    // function handleClick(){
+    //   if(deleteModeOn){
+    //     if(toDelete != undefined){
+    //       // TODO: Set aus Colorsets löschen. (toDelete ist der index)
+    //       console.log('Ganzes Farbset Löschen');
+    //     }else{
+    //       console.log('Can not delete undefined');
+    //     }
+    //   }else{
+    //     sendAddPresetColor({color: '#ffffff'});
+    //   }
+    // } 
     
   </script>
   
-  <div on:click={handleClick} class="color d-flex justify-content-center align-items-center">
+  <div on:click|stopPropagation class="color d-flex justify-content-center align-items-center">
     {#if deleteModeOn}
       <i class="fas fa-trash delete"></i>
     {:else}

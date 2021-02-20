@@ -1,13 +1,9 @@
 <script lang="ts">
-import { current_component } from "svelte/internal";
 
   import AddSimpleColor from "./AddSimpleColor.svelte";
 
   import ColorRect from "./ColorRect.svelte";
   import {
-    sendCurrentSelectedIndex,
-    sendRemoveSimpleColor,
-    sendSimpleColorsSelected,
     state,
   } from "./sockets";
 
@@ -20,13 +16,16 @@ import { current_component } from "svelte/internal";
   {#each $state.simpleColors as color, k}
     <ColorRect
       on:dblclick={(() => console.log('delete'))}
-      on:clicked={() => {
+      on:click={() => {
         if(!deleteModeOn){
-          sendSimpleColorsSelected({ simpleColorsSelected: true });
-          sendCurrentSelectedIndex({ index: k });
+          state.update(s => {
+            s.simpleColorsSelected = true
+            s.index = k
+            return s
+          })
         }else{
           if($state.simpleColors.length > 1){
-            sendRemoveSimpleColor({ index: k });
+            // sendRemoveSimpleColor({ index: k });TODO
           }
         }
       }}

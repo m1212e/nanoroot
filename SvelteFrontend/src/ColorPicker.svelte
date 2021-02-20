@@ -1,9 +1,10 @@
 <script>
   import iro from "@jaames/iro";
   import { onMount } from "svelte";
-  import { getCurrentColorCode, sendChangeColor, state } from "./sockets";
+  import { state } from "./sockets";
+  import { sendChangeColor } from "./helpers";
 
-  var initColor = getCurrentColorCode();
+  var initColor = "#FFFFFF";
   var colorPicker = undefined;
 
   onMount(() => {
@@ -19,18 +20,21 @@
       sendChangeColor(color.hexString);
     });
 
-    state.subscribe((state) => {
-      if (colorPicker.color.hexString != getCurrentColorCode()) {
-        colorPicker.color.hexString = getCurrentColorCode();
+    state.subscribe((s) => {
+      const currentHex = s.simpleColorsSelected
+        ? s.simpleColors[s.index]
+        : s.presetColors[s.index][s.presetColorsIndex];
+      if (colorPicker.color.hexString != currentHex) {
+        colorPicker.color.hexString = currentHex;
       }
     });
   });
 
-  function changeColorByHex(hex){
-    hex = hex.replace('#', '');
+  function changeColorByHex(hex) {
+    hex = hex.replace("#", "");
     console.log(hex);
-    if(hex.length === 6){
-      sendChangeColor('#' + hex);
+    if (hex.length === 6) {
+      sendChangeColor("#" + hex);
     }
   }
 

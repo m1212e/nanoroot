@@ -1,13 +1,10 @@
 <script>
   export var color = undefined;
   export let selected = false;
-
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
 </script>
 
 <div
-  on:click={() => dispatch("clicked", { color })}
+  on:click|stopPropagation
   style="--color: {color}"
   class="color {selected ? 'selected' : ''}"
 />
@@ -22,7 +19,7 @@
     cursor: pointer;
   }
   .selected {
-    box-shadow:  5px 5px 12px 3px rgba(0, 0, 0, .5);
-    transition: .3s;
+    box-shadow: 5px 5px 12px 3px rgba(0, 0, 0, 0.5);
+    transition: 0.3s;
   }
 </style>

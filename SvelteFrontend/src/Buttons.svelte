@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { sendOnState, sendTimeoutDelay, state } from "./sockets";
+	import { state } from "./sockets";
 
 	var editTimer = false;
 	var timeInMin = 5;
 
 	function power() {
-		console.log($state.onState);
-		sendOnState({on: !$state.onState})
+		$state.onState = !$state.onState
 	}
 	function saveTimer() {
-		sendTimeoutDelay({ minutes: timeInMin });
+		$state.timeoutDelay = timeInMin
 		editTimer = false;
 	}
 	function subtractTime() {
@@ -30,8 +29,11 @@
 			on:click={power}
 			type="button"
 			id="powerButton"
-			class="col-md btn button {$state != undefined && $state.onState ? 'btn-danger': 'btn-info'}">
-			{$state != undefined && $state.onState ? 'Ausschalten': 'Einschalten'}</button
+			class="col-md btn button {$state != undefined && !$state.onState
+				? 'btn-danger'
+				: 'btn-info'}"
+		>
+			{$state != undefined && $state.onState ? "Ausschalten" : "Einschalten"}</button
 		>
 		<button
 			on:click={() => {

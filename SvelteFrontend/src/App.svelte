@@ -5,7 +5,7 @@ import { onMount } from "svelte";
 	import ColorPicker from "./ColorPicker.svelte";
 	import Colors from "./Colors.svelte";
 	import ColorSets from "./ColorSets.svelte";
-	import { sendCurrentMode, state } from "./sockets";
+	import { state } from "./sockets";
 
 	onMount(() => {
 		if(window.innerWidth > 991){
@@ -66,35 +66,35 @@ import { onMount } from "svelte";
 					class="col-lg-4 h-100 d-flex align-items-center justify-content-around"
 				>
 					<i
-						on:click={() => sendCurrentMode({ mode: 0 })}
+						on:click={() => $state.currentMode = 0}
 						class="fab fa-itunes-note mode {$state != undefined &&
 						$state.currentMode == 0
 							? 'selected'
 							: ''}"
 					/>
 					<i
-						on:click={() => sendCurrentMode({ mode: 1 })}
+						on:click={() => $state.currentMode = 1}
 						class="fas fa-heartbeat mode {$state != undefined &&
 						$state.currentMode == 1
 							? 'selected'
 							: ''}"
 					/>
 					<i
-						on:click={() => sendCurrentMode({ mode: 2 })}
+						on:click={() => $state.currentMode = 2}
 						class="fas fa-rainbow 2x mode {$state != undefined &&
 						$state.currentMode == 2
 							? 'selected'
 							: ''}"
 					/>
 					<i
-						on:click={() => sendCurrentMode({ mode: 3 })}
+						on:click={() => $state.currentMode = 3}
 						class="fas fa-redo-alt mode {$state != undefined &&
 						$state.currentMode == 3
 							? 'selected'
 							: ''}"
 					/>
 					<i
-						on:click={() => sendCurrentMode({ mode: 4 })}
+						on:click={() => $state.currentMode = 4}
 						class="far fa-lightbulb mode {$state != undefined &&
 						$state.currentMode == 4
 							? 'selected'
