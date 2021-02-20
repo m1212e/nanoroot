@@ -6,7 +6,7 @@ import { sendAddPresetColors } from "./sockets";
 </script>
 
 <div
-  class="row colorSet d-felx justify-content-center"
+  class="row colorSet justify-content-center"
   on:click={() => {
     sendAddPresetColors({colors: ['#ffffff']})
   }}

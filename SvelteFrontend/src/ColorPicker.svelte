@@ -34,9 +34,9 @@
     }
   }
 
-  window.onresize = () => {
+  window.addEventListener('resize', () => {
     colorPicker.resize(handleSize());
-  };
+  });
 
   var handleSize = () => {
     if (window.innerWidth >= 1200) {

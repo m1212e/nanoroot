@@ -5,6 +5,7 @@
 	var timeInMin = 5;
 
 	function power() {
+		console.log($state.onState);
 		sendOnState({on: !$state.onState})
 	}
 	function saveTimer() {
@@ -29,8 +30,8 @@
 			on:click={power}
 			type="button"
 			id="powerButton"
-			class="col-md btn button {$state != undefined && !$state.onState ? 'btn-danger': 'btn-success'}">
-			{$state != undefined && !$state.onState ? 'Aus': 'An'}</button
+			class="col-md btn button {$state != undefined && $state.onState ? 'btn-danger': 'btn-info'}">
+			{$state != undefined && $state.onState ? 'Ausschalten': 'Einschalten'}</button
 		>
 		<button
 			on:click={() => {
@@ -69,6 +70,7 @@
 <style>
 	.buttons {
 		height: 10%;
+		margin-top: 2rem;
 	}
 	.button {
 		width: 40%;
@@ -90,5 +92,11 @@
 		color: white;
 		font-weight: bold;
 		padding: 1rem;
+	}
+
+	@media (min-width: 992px) {
+		.buttons {
+			margin-top: 0rem;
+		}
 	}
 </style>

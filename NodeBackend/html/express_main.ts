@@ -124,7 +124,7 @@ io.on('connection', (socket) => {
       publishToAllWS('ChangePresetColorsIndex', data)
       state.presetColorsIndex = data.index
     }
-    });
+  });
 });
 
 http.listen(port, () => {
