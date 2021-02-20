@@ -6,7 +6,7 @@
   
   <div on:click|stopPropagation class="color d-flex justify-content-center align-items-center">
     {#if deleteModeOn}
-      <i class="fas fa-trash delete"></i>
+      <i class="fas fa-trash"></i>
     {:else}
       <i class="fas fa-plus add"></i>
     {/if}
@@ -27,7 +27,4 @@
       font-weight: bold;
     }
 
-    .delete {
-      color: red;
-    }
   </style>

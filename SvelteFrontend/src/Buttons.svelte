@@ -29,7 +29,7 @@
 			on:click={power}
 			type="button"
 			id="powerButton"
-			class="col-md btn button {$state != undefined && !$state.onState
+			class="col-md btn button {$state != undefined && $state.onState
 				? 'btn-danger'
 				: 'btn-info'}"
 		>

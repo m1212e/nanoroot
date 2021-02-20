@@ -37,8 +37,18 @@ export class StateManager implements State {
     private timeout: NodeJS.Timeout;
     private changes: any = {};
 
-    constructor(io) {
+    constructor(io, state: State) {
         this.io = io
+        if (state != undefined) {
+            this._onState = state.onState
+            this._timeoutDelay = state.timeoutDelay
+            this._simpleColors = state.simpleColors
+            this._presetColors = state.presetColors
+            this._simpleColorsSelected = state.simpleColorsSelected
+            this._currentMode = state.currentMode
+            this._index = state.index
+            this._presetColorsIndex = state.presetColorsIndex
+        }
     }
 
 
