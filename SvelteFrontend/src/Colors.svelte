@@ -15,25 +15,35 @@
 <div class="row colorContainer">
   {#each $state.simpleColors as color, k}
     <ColorRect
-      on:dblclick={(() => console.log('delete'))}
       on:click={() => {
         if(!deleteModeOn){
-          state.update(s => {
-            s.simpleColorsSelected = true
-            s.index = k
-            return s
+          state.update(current => {
+            current.simpleColorsSelected = true
+            current.index = k
+            return current
           })
         }else{
-          if($state.simpleColors.length > 1){
-            // sendRemoveSimpleColor({ index: k });TODO
-          }
+          state.update(current => {
+            if(current.simpleColors.length > 1){
+              current.simpleColorsSelected = true
+              current.simpleColors.splice(k, 1)
+              current.index = 0
+            }
+            return current
+          })
         }
       }}
       {color}
       selected={$state.simpleColorsSelected && $state.index == k}
     />
   {/each}
-  <AddSimpleColor />
+  <AddSimpleColor on:click={() => {
+    state.update(current => {
+      current.simpleColors.push('#ffffff')
+      current.index = current.simpleColors.length - 1
+      return current
+    })
+  }} />
 </div>
 
 <style>

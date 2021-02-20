@@ -2,19 +2,6 @@
     export var deleteModeOn = false;
     export var toDelete = undefined;
   
-    // function handleClick(){
-    //   if(deleteModeOn){
-    //     if(toDelete != undefined){
-    //       // TODO: Set aus Colorsets löschen. (toDelete ist der index)
-    //       console.log('Ganzes Farbset Löschen');
-    //     }else{
-    //       console.log('Can not delete undefined');
-    //     }
-    //   }else{
-    //     sendAddPresetColor({color: '#ffffff'});
-    //   }
-    // } 
-    
   </script>
   
   <div on:click|stopPropagation class="color d-flex justify-content-center align-items-center">

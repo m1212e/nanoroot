@@ -1,9 +1,9 @@
-import type {State} from '../../NodeBackend/state';
 import {io} from "socket.io-client";
 import {writable} from 'svelte/store';
+import {ModeTypes, State} from "./helpers";
 
-// const socket = io("https://nanoroot.xires.de");//prod
-const socket = io("http://localhost:3000");//dev
+const socket = io("https://nanoroot.xires.de");//prod
+// const socket = io("http://localhost:3000");//dev
 
 export const state = writable<State>(undefined);
 
@@ -15,7 +15,7 @@ let stateCopy: State = {
     ['#eb4034', '#32a852'],
     ['#eb4034', '#32a852', '#32a872', '#32a8a2']],
     simpleColorsSelected: true,
-    currentMode: 4,
+    currentMode: ModeTypes.DEFAULT,
     index: 0,
     presetColorsIndex: 0
 }

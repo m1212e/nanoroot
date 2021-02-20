@@ -66,6 +66,13 @@ import { onMount } from "svelte";
 					class="col-lg-4 h-100 d-flex align-items-center justify-content-around"
 				>
 					<i
+						on:click={() => $state.currentMode = 4}
+						class="far fa-lightbulb mode {$state != undefined &&
+						$state.currentMode == 4
+							? 'selected'
+							: ''}"
+					/>
+					<i
 						on:click={() => $state.currentMode = 0}
 						class="fab fa-itunes-note mode {$state != undefined &&
 						$state.currentMode == 0
@@ -90,13 +97,6 @@ import { onMount } from "svelte";
 						on:click={() => $state.currentMode = 3}
 						class="fas fa-redo-alt mode {$state != undefined &&
 						$state.currentMode == 3
-							? 'selected'
-							: ''}"
-					/>
-					<i
-						on:click={() => $state.currentMode = 4}
-						class="far fa-lightbulb mode {$state != undefined &&
-						$state.currentMode == 4
 							? 'selected'
 							: ''}"
 					/>

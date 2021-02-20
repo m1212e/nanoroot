@@ -4,7 +4,7 @@
   import ColorRect from "./ColorRect.svelte";
   import { state } from "./sockets";
 
-  export var deleteModeOn: boolean = false;
+  export let deleteModeOn: boolean = false;
 </script>
 
 <div>
@@ -16,7 +16,7 @@
           ? 'selected'
           : ''}"
         on:click={() => {
-          if ($state.index != k || $state.simpleColorsSelected != false) {
+          if (!deleteModeOn && $state.index != k || $state.simpleColorsSelected != false) {
             state.update((s) => {
               s.presetColorsIndex = 0;
               s.index = k;
@@ -31,7 +31,14 @@
             {color}
             on:click={() => {
               if(deleteModeOn){
-                //TODO: implement
+                state.update((current) => {
+                  current.index = k
+                  if(current.presetColors[current.index].length - 1 > 0){
+                    current.presetColors[current.index].splice(i, 1)
+                    current.presetColorsIndex = 0
+                  }
+                  return current
+                })
               } else {
                 state.update((s) => {
                   s.index = k;
@@ -48,13 +55,25 @@
           {/each}
           <AddSetColor toDelete={k} {deleteModeOn} 
           on:click={() => {
-            state.update((s) => {
-              s.simpleColorsSelected = false;
-              s.index = k;
-              s.presetColors[s.index].push("#ffffff");
-              s.presetColorsIndex = s.presetColors[s.index].length - 1;
-              return s;
-            });
+            if(deleteModeOn){
+            state.update((current) => {
+              if(current.presetColors.length - 1 > 0){
+                current.simpleColorsSelected = false;
+                current.index = 0
+                current.presetColorsIndex = 0
+                current.presetColors.splice(k, 1)
+              }
+              return current
+            })
+            } else {
+              state.update((s) => {
+                s.simpleColorsSelected = false;
+                s.index = k;
+                s.presetColors[s.index].push("#ffffff");
+                s.presetColorsIndex = s.presetColors[s.index].length - 1;
+                return s;
+              });
+            }
           }}
         />
       </div>

@@ -1,6 +1,26 @@
 import {get} from "svelte/store";
 import {state} from "./sockets";
 
+export enum ModeTypes {
+    MUSIC,
+    RAINBOW,
+    PULSATING,
+    SMOOTH_TRANSITIONING,
+    DEFAULT
+}
+
+export interface State {
+    timeoutDelay: number
+    onState: boolean
+    simpleColors: string[]
+    presetColors: string[][]
+    simpleColorsSelected: boolean
+    currentMode: ModeTypes
+    index: number
+    presetColorsIndex: number
+}
+
+
 const hexRegex = new RegExp('^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$')
 let timer;
 /**
