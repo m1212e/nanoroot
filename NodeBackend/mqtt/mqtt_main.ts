@@ -27,7 +27,7 @@ server.listen(port, function() {
 // });
 
 aedes.authenticate = function(client, username, password, callback) {
-  console.log('Authorizing: ', client);
+  // console.log('Authorizing: ', client);
   if (username != undefined && password != undefined) {
     callback(null, isAuthenticated(username, password.toString()))
   } else {
@@ -38,14 +38,18 @@ aedes.authenticate = function(client, username, password, callback) {
 aedes.authorizeSubscribe = function(client, sub, callback) {
   console.log(Date.now() + ' Trying to authorize sub...');
 
+  console.log(sub.topic);
+
   if (
-    sub.topic !== 'CurrentMode' ||
-    sub.topic !== 'TimeoutDelay' ||
-    sub.topic !== 'OnState' ||
+    sub.topic !== 'currentMode' &&
+    sub.topic !== 'timeoutDelay' &&
+    sub.topic !== 'onState' &&
     sub.topic !== 'colors'
   ) {
+    console.log('Went Wrong!');
     return callback(new Error('wrong topic'))
   } else {
+    console.log('Successful auth!');
     callback(null, sub)
     //TODO: need to publish the values for the new client?
   }
@@ -72,11 +76,63 @@ export function publishMQTTTopic(topic: string, data: any) {
     console.error('Colors should be pushed by publishMQTTColors!')
     return;
   }
-  aedes.publish({topic: topic, payload: data}, null)
+  console.log(topic, ': ', JSON.stringify(data));
+
+  switch (topic) {
+    case 'onState':
+      publishOnState(JSON.stringify(data))
+      break;
+    case 'currentMode':
+      publishCurrentMode(JSON.stringify(data))
+      break;
+    case 'timeoutDelay':
+      publishTimeoutDelay(JSON.stringify(data))
+      break;
+
+    default:
+      console.error('Topic not available!')
+      break;
+  }
 }
 
-let lastPublish
+let lastPublishedOnState
+function publishOnState(data: string) {
+  if (lastPublishedOnState != data) {
+    lastPublishedOnState = data
+    aedes.publish({topic: 'onState', payload: data}, (err) => {
+      if (err != undefined) {
+        console.log('\n', 'Error: ', err, '\n');
+      }
+    })
+  }
+}
 
+let lastPublishedCurrentMode
+function publishCurrentMode(data) {
+  if (lastPublishedCurrentMode != data) {
+    lastPublishedCurrentMode = data
+    aedes.publish({topic: 'currentMode', payload: data}, (err) => {
+      if (err != undefined) {
+        console.log('\n', 'Error: ', err, '\n');
+      }
+    })
+  }
+}
+
+let lastPublishedTimeoutDelay
+function publishTimeoutDelay(data) {
+  if(lastPublishedTimeoutDelay != data){
+    lastPublishedTimeoutDelay = data
+    aedes.publish({topic: 'timeoutDelay', payload: data}, (err) => {
+      if (err != undefined) {
+        console.log('\n', 'Error: ', err, '\n');
+      }
+    })
+  }
+}
+
+
+let lastPublishedColors
 export function publishMQTTColors() {
   let data
   if (state.simpleColorsSelected) {
@@ -85,8 +141,13 @@ export function publishMQTTColors() {
     data = state.presetColors[state.index]
   }
 
-  if (data != undefined && data != lastPublish) {
-    lastPublish = data
-    aedes.publish({topic: 'colors', payload: data}, null)
+  if (data != undefined && JSON.stringify(data) != JSON.stringify(lastPublishedColors)) {
+    lastPublishedColors = JSON.stringify(data)
+    console.log('colors', data);
+    aedes.publish({topic: 'colors', payload: JSON.stringify(data)}, (err) => {
+      if (err != undefined) {
+        console.log('\n', 'Error: ', err, '\n');
+      }
+    })
   }
 }
