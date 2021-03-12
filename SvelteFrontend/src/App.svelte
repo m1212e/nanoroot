@@ -72,13 +72,13 @@ import { onMount } from "svelte";
 							? 'selected'
 							: ''}"
 					/>
-					<i
+					<!-- <i
 						on:click={() => $state.currentMode = 0}
 						class="fab fa-itunes-note mode {$state != undefined &&
 						$state.currentMode == 0
 							? 'selected'
 							: ''}"
-					/>
+					/> -->
 					<i
 						on:click={() => $state.currentMode = 1}
 						class="fas fa-heartbeat mode {$state != undefined &&
