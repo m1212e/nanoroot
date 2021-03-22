@@ -1,7 +1,5 @@
 <script>
-    export var deleteModeOn = false;
-    export var toDelete = undefined;
-  
+    export var deleteModeOn = false;  
   </script>
   
   <div on:click|stopPropagation class="color d-flex justify-content-center align-items-center">
